@@ -1,0 +1,29 @@
+{
+  "name": "homeutils",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NegativeDivinity/HomeUtils.git"
+  },
+  "author": "Benjamin Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NegativeDivinity/HomeUtils/issues"
+  },
+  "homepage": "https://github.com/NegativeDivinity/HomeUtils#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "create-react-app": "^4.0.3",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.13",
+    "nodemon": "^2.0.15"
+  }
+}
