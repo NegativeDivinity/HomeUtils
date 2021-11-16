@@ -9,7 +9,6 @@ import { USER_DETAILS_UPDATE_RESET } from "../constants/userConstants";
 const PageWrapper = styled.div`
     text-align: center;
     margin-top: 2%;
-    height: 86vh;
     
     h1 {
         font-size: 40px;
