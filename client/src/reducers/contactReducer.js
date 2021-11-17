@@ -1,6 +1,6 @@
 import { CONTACT_LIST_FAIL, CONTACT_LIST_REQUEST, CONTACT_LIST_SUCCESS } from "../constants/contactConstants";
 
-export const listContactReducer = (state = {}, action) => {
+export const contactListReducer = (state = {loading: true}, action) => {
     switch(action.type) {
         case CONTACT_LIST_REQUEST:
             return {loading: true};

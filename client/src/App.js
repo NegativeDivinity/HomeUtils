@@ -11,7 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SigninPage from './pages/SigninPage';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
-import Contacts from './pages/Contacts';
+import ContactsPage from './pages/ContactsPage';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -132,7 +132,7 @@ function App() {
                 <DropContent>
                   <li><Link to = '/profile'>Profile</Link></li>
                   <li><Link to = '#'>To-Do-List</Link></li>
-                  <li><Link to = '/contacts'>Contact List</Link></li>
+                  <li><Link to = '/contact'>Contact List</Link></li>
                   <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
                 </DropContent>
               </Drop>
@@ -158,10 +158,10 @@ function App() {
               }
             />
             <Route 
-              exact path = '/contacts' 
+              exact path = '/contact' 
               element = {
                 <PrivateRoute>
-                  <Contacts/> 
+                  <ContactsPage/> 
                 </PrivateRoute>
               }
             />
