@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
-import { contactListReducer } from './reducers/contactReducer';
+import { contactAddReducer, contactDeleteReducer, contactDetailsReducer, contactListReducer } from './reducers/contactReducer';
 import { userDetailsReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
 
 const initialState = {
@@ -16,7 +16,10 @@ const reducer = combineReducers({
     userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
     contactList: contactListReducer,
-
+    contactAdd: contactAddReducer,
+    contactDelete: contactDeleteReducer,
+    contactDetails: contactDetailsReducer,
+    
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

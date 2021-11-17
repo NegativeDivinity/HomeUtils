@@ -12,6 +12,7 @@ import SigninPage from './pages/SigninPage';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import ContactsPage from './pages/ContactsPage';
+import ContactEdit from './pages/ContactEdit';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -162,6 +163,14 @@ function App() {
               element = {
                 <PrivateRoute>
                   <ContactsPage/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/contact/:id' 
+              element = {
+                <PrivateRoute>
+                  <ContactEdit/> 
                 </PrivateRoute>
               }
             />
