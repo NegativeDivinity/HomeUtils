@@ -5,9 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signout } from './actions/userActions';
 
 // Component Imports
+import PrivateRoute from './components/PrivateRoute';
+
+// Page Imports
 import SigninPage from './pages/SigninPage';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Contacts from './pages/Contacts';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -109,9 +113,10 @@ function App() {
               <Drop>
                 <Link to = '#'>Home Utils</Link>
                 <DropContent>
-                  <li><Link to = '#'>Profile</Link></li>
+                  <li><Link to = '#'>Users</Link></li>
                   <li><Link to = '#'>To-Do-List</Link></li>
-                  <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
+                  <li><Link to = '#'>Calendar</Link></li>
+                  <li><Link to = '#'>Calculator</Link></li>
                 </DropContent>
               </Drop>
               <Drop>
@@ -127,6 +132,7 @@ function App() {
                 <DropContent>
                   <li><Link to = '/profile'>Profile</Link></li>
                   <li><Link to = '#'>To-Do-List</Link></li>
+                  <li><Link to = '/contacts'>Contact List</Link></li>
                   <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
                 </DropContent>
               </Drop>
@@ -135,8 +141,30 @@ function App() {
         )}
         <Main>
           <Routes>
-            <Route exact path = '/dashboard' element = {<Dashboard/>} />
-            <Route exact path = '/profile' element = {<Profile/>} />
+            <Route 
+              exact path = '/dashboard' 
+              element = {
+                <PrivateRoute>
+                  <Dashboard/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/profile' 
+              element = {
+                <PrivateRoute>
+                  <Profile/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/contacts' 
+              element = {
+                <PrivateRoute>
+                  <Contacts/> 
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </Main>
       </PageWrapper>

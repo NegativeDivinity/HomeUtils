@@ -17,6 +17,16 @@ const data = {
             email: 'mbower@gmail.com',
             password: bcrypt.hashSync('1234', 8),
         },
+    ],
+    contacts: [
+        {
+            name: 'Skylar',
+            nickName: 'sky',
+            phone: 8155648349,
+            email: 'skylar@gmail.com',
+            job: 'Helpdesk Technician',
+            company: 'Epensmith',
+        },
     ]
 }
 
