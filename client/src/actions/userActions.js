@@ -54,7 +54,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
     try {
         const {data} = await axios.put('/users/profile', user, {
-            headers: {Authorization: `Beaere ${userInfo.token}`}
+            headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         
         dispatch({type: USER_DETAILS_UPDATE_SUCCEED, payload: data});

@@ -143,6 +143,14 @@ function App() {
         <Main>
           <Routes>
             <Route 
+              exact path = '/contact/:id/edit' 
+              element = {
+                <PrivateRoute>
+                  <ContactEdit/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
               exact path = '/dashboard' 
               element = {
                 <PrivateRoute>
@@ -163,14 +171,6 @@ function App() {
               element = {
                 <PrivateRoute>
                   <ContactsPage/> 
-                </PrivateRoute>
-              }
-            />
-            <Route 
-              exact path = '/contact/:id' 
-              element = {
-                <PrivateRoute>
-                  <ContactEdit/> 
                 </PrivateRoute>
               }
             />

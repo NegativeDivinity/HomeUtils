@@ -66,7 +66,7 @@ export default function ContactsPage() {
     const {loading, error, contacts} = contactList;
 
     const contactAdd = useSelector(state => state.contactAdd);
-    const {loading: loadingContact, success, error: errorContact, contact: createdContact} = contactAdd;
+    const {loading: loadingContact, success: successCreate, error: errorContact, contact: createdContact} = contactAdd;
 
     const contactDelete = useSelector(state => state.contactDelete);
     const {loading: loadingDelete, success: successDelete, error: errorDelete} = contactDelete;
@@ -75,15 +75,15 @@ export default function ContactsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (success) {
+        if (successCreate) {
             dispatch({type: ADD_CONTACT_RESET});
-            navigate(`/contact/${createdContact._id}`);
+            navigate(`/contact/${createdContact._id}/edit`);
         }
         if (successDelete) {
             dispatch({type: DELETE_CONTACT_RESET});
         }
         dispatch(listContact());
-    }, [dispatch, navigate, success, successDelete, createdContact]);
+    }, [dispatch, navigate, successCreate, successDelete, createdContact]);
 
     const addHandler = () => {
         dispatch(addContact());

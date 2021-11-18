@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { detailsContact } from '../actions/contactAction';
-import { useParams } from 'react-router';
+import { detailsContact, updateContact } from '../actions/contactAction';
+import { Navigate, useNavigate, useParams } from 'react-router';
+import { CONTACT_DETAILS_RESET } from '../constants/contactConstants';
 
 const PageWrapper = styled.div`
     text-align: center;
     margin-top: 2%;
+    color: white;
 `;
 
 const ContactEditForm = styled.form`
@@ -52,10 +54,8 @@ const Submit = styled.button`
 
 export default function ContactEdit() {
 
-    const contactDetails = useSelector(state => state.contactDetails);
-    const {loading, error, contact} = contactDetails;
-
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {id} = useParams();
 
@@ -66,14 +66,36 @@ export default function ContactEdit() {
     const [job, setJob] = useState('');
     const [company, setCompany] = useState('');
 
+    const contactDetails = useSelector(state => state.contactDetails);
+    const {loading, error, contact} = contactDetails;
+
+    const contactUpdate = useSelector(state => state.contactUpdate);
+    const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = contactUpdate;
+
     useEffect(() => {
-        dispatch(detailsContact(id));
-    }, [dispatch, id])
+
+        if (successUpdate) {
+            navigate(`/contact`);
+        }
+
+        if (!contact || successUpdate) {
+            dispatch({type: CONTACT_DETAILS_RESET});
+            dispatch(detailsContact(id));
+        } else {
+            setName(contact.name);
+            setNickName(contact.nickName);
+            setPhone(contact.phone);
+            setEmail(contact.email);
+            setJob(contact.job);
+            setCompany(contact.company);
+        }
+        
+    }, [dispatch, id, contact, successUpdate, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault();
-
-
+        
+        dispatch(updateContact({_id: contact._id, name, nickName, phone, email, job, company}));
     }
 
     return (
@@ -86,6 +108,7 @@ export default function ContactEdit() {
                     <PageWrapper>
                         <h1>{contact.name}</h1>
                         <ContactEditForm onSubmit = {submitHandler}>
+                            {loadingUpdate && <LoadingBox />}
                             <div>
                                 <label htmlFor="name">Name: </label>
                                 <input 
@@ -142,6 +165,8 @@ export default function ContactEdit() {
                             </div>
                             <Submit type = 'submit'>Update</Submit>
                         </ContactEditForm>
+                        
+                        {errorUpdate && <MessageBox variant = 'danger'>{errorUpdate}</MessageBox>}
                     </PageWrapper>
                 )}
         </>

@@ -38,6 +38,24 @@ contactRouter.post('/', isAuth, expressAsyncHandler(async(req, res) => {
     res.send({message: 'Contact Created', contact: createdContact});
 }))
 
+contactRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+    const contactId = req.params.id;
+    const contact = await Contact.findById(contactId);
+    if (contact) {
+        contact.name = req.body.name || contact.name;
+        contact.nickName = req.body.nickName || contact.nickName;
+        contact.phone = req.body.phone || contact.phone;
+        contact.email = req.body.email || contact.email;
+        contact.job = req.body.job || contact.job;
+        contact.company = req.body.company || contact.company;
+
+        const updatedContact = await contact.save();
+        res.send({contact: updatedContact});
+    } else {
+        res.status(404).send({message: 'No contact found'});
+    }
+}));
+
 contactRouter.delete('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     const contact = await Contact.findById(req.params.id);
     if (contact) {

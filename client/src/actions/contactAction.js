@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_CONTACT_FAIL, ADD_CONTACT_REQUEST, ADD_CONTACT_SUCCESS, CONTACT_DETAILS_FAIL, CONTACT_DETAILS_REQUEST, CONTACT_DETAILS_SUCCESS, CONTACT_LIST_FAIL, CONTACT_LIST_REQUEST, CONTACT_LIST_SUCCESS, DELETE_CONTACT_FAIL, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS } from "../constants/contactConstants";
+import { ADD_CONTACT_FAIL, ADD_CONTACT_REQUEST, ADD_CONTACT_SUCCESS, CONTACT_DETAILS_FAIL, CONTACT_DETAILS_REQUEST, CONTACT_DETAILS_SUCCESS, CONTACT_LIST_FAIL, CONTACT_LIST_REQUEST, CONTACT_LIST_SUCCESS, CONTACT_UPDATE_FAIL, CONTACT_UPDATE_REQUEST, CONTACT_UPDATE_SUCCESS, DELETE_CONTACT_FAIL, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS } from "../constants/contactConstants";
 
 export const listContact = () => async(dispatch, getState) => {
     dispatch({type: CONTACT_LIST_REQUEST});
@@ -18,9 +18,8 @@ export const listContact = () => async(dispatch, getState) => {
     }
 }
 
-export const detailsContact = (contactId) => async(dispatch, getState) => {
+export const detailsContact = (contactId) => async(dispatch) => {
     dispatch({type: CONTACT_DETAILS_REQUEST, payload: contactId});
-    const {userSignin: {userInfo}} = getState();
 
     try {
         const {data} = await axios.get(`/contact/${contactId}`);
@@ -30,6 +29,22 @@ export const detailsContact = (contactId) => async(dispatch, getState) => {
             ? error.response.data.message
             : error.message;
         dispatch({type: CONTACT_DETAILS_FAIL, payload: message});
+    }
+}
+
+export const updateContact = (contact) => async(dispatch, getState) => {
+    dispatch({type: CONTACT_UPDATE_REQUEST, payload: contact});
+    const {userSignin: {userInfo}} = getState();
+    
+    try {
+        const {data} = await axios.put(`/contact/${contact._id}`, contact, {
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        });
+
+        dispatch({type: CONTACT_UPDATE_SUCCESS, payload: data });
+    } catch (error) {
+        const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+        dispatch({type: CONTACT_UPDATE_FAIL, error: message});
     }
 }
 
