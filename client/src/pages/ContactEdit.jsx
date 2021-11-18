@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { detailsContact, updateContact } from '../actions/contactAction';
-import { Navigate, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { CONTACT_DETAILS_RESET } from '../constants/contactConstants';
+import {MdOutlineKeyboardBackspace} from 'react-icons/md';
 
 const PageWrapper = styled.div`
-    text-align: center;
     margin-top: 2%;
     color: white;
 `;
@@ -16,12 +16,16 @@ const PageWrapper = styled.div`
 const ContactEditForm = styled.form`
     display: flex;
     flex-direction: column;
-    margin: 0 0 0 30%;
+    margin: 0 0 1% 30%;
     width: 40%;
     border: solid black 3px;
     padding: 10px;
     border-radius: 10px;
     background-color: rgb(73, 73, 77);
+
+    h1 {
+        text-align: center;
+    }
 
     div {
         display: flex;
@@ -52,6 +56,21 @@ const Submit = styled.button`
     }
 `;
 
+const BackButton = styled.button`
+    margin-left: 30%;
+    width: 5%;
+    color: white;
+    border-radius: 10px;
+    border: solid black 2px;
+    padding: 5px;
+    background-color: rgb(73, 73, 77);
+    cursor: pointer;
+
+    &:hover {
+        opacity: .7;
+    }
+`;
+
 export default function ContactEdit() {
 
     const dispatch = useDispatch();
@@ -74,11 +93,7 @@ export default function ContactEdit() {
 
     useEffect(() => {
 
-        if (successUpdate) {
-            navigate(`/contact`);
-        }
-
-        if (!contact || successUpdate) {
+        if (!contact || (contact._id !== id)) {
             dispatch({type: CONTACT_DETAILS_RESET});
             dispatch(detailsContact(id));
         } else {
@@ -90,7 +105,7 @@ export default function ContactEdit() {
             setCompany(contact.company);
         }
         
-    }, [dispatch, id, contact, successUpdate, navigate]);
+    }, [dispatch, id, contact, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -99,16 +114,16 @@ export default function ContactEdit() {
     }
 
     return (
-        <>
-            {loading ? (
-                    <LoadingBox />
-                ) : error ? (
-                    <MessageBox variant = 'danger'>{error}</MessageBox>
-                ) : (
-                    <PageWrapper>
-                        <h1>{contact.name}</h1>
-                        <ContactEditForm onSubmit = {submitHandler}>
-                            {loadingUpdate && <LoadingBox />}
+        <PageWrapper>
+            {loadingUpdate && <LoadingBox />}
+            <ContactEditForm onSubmit = {submitHandler}>
+                {loading ? (
+                        <LoadingBox />
+                    ) : error ? (
+                        <MessageBox variant = 'danger'>{error}</MessageBox>
+                    ) :
+                        <>
+                            <h1>{contact.name}</h1>
                             <div>
                                 <label htmlFor="name">Name: </label>
                                 <input 
@@ -164,11 +179,12 @@ export default function ContactEdit() {
                                 />
                             </div>
                             <Submit type = 'submit'>Update</Submit>
-                        </ContactEditForm>
-                        
-                        {errorUpdate && <MessageBox variant = 'danger'>{errorUpdate}</MessageBox>}
-                    </PageWrapper>
-                )}
-        </>
+                            {successUpdate && <MessageBox variant = 'success'>Successfully Updated</MessageBox>}
+                        </>
+                }
+            </ContactEditForm>
+            <BackButton onClick = {() => navigate('/contact')}><MdOutlineKeyboardBackspace fontSize = '30px' /></BackButton>
+            {errorUpdate && <MessageBox variant = 'danger'>{errorUpdate}</MessageBox>}
+        </PageWrapper>
     )
 }

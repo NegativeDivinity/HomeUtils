@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
-const ContactCard = styled(Link)`
+const ContactCard = styled.button`
     display: flex;
     justify-content: space-between;
     width: 50%;
@@ -13,6 +13,7 @@ const ContactCard = styled(Link)`
     text-decoration: none;
     color: white;
     background-color: rgb(73, 73, 77); 
+    cursor: pointer;
 
     p {
         padding: 0 30px 0 30px;
@@ -22,9 +23,10 @@ const ContactCard = styled(Link)`
 export default function ContactCards(props) {
 
     const {contact} = props;
+    const navigate = useNavigate();
 
     return (
-        <ContactCard key = {contact._id} to = {`/contact/${contact._id}/edit`}>
+        <ContactCard key = {contact._id} onClick = {() => navigate(`/contact/${contact._id}/edit`)}>
             <p>{contact.name}</p>
             <p>{contact.phone}</p>
         </ContactCard>
