@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import ContactsPage from './pages/ContactsPage';
 import ContactEdit from './pages/ContactEdit';
+import GroupToDo from './pages/GroupToDo';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -115,7 +116,7 @@ function App() {
                 <Link to = '#'>Home Utils</Link>
                 <DropContent>
                   <li><Link to = '#'>Users</Link></li>
-                  <li><Link to = '#'>To-Do-List</Link></li>
+                  <li><Link to = '/grouptodo'>To-Do-List</Link></li>
                   <li><Link to = '#'>Calendar</Link></li>
                   <li><Link to = '#'>Calculator</Link></li>
                 </DropContent>
@@ -171,6 +172,14 @@ function App() {
               element = {
                 <PrivateRoute>
                   <ContactsPage/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/grouptodo' 
+              element = {
+                <PrivateRoute>
+                  <GroupToDo/> 
                 </PrivateRoute>
               }
             />

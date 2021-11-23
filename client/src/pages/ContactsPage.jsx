@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { addContact, deleteContact, listContact } from '../actions/contactAction';
+import { addContact, deleteContact, listContact } from '../actions/contactActions';
 import {FaTrash} from 'react-icons/fa';
 import {RiAddLine} from 'react-icons/ri';
 
@@ -53,11 +53,6 @@ const Delete = styled.button`
     background-color: red;
     cursor: pointer;
     outline: none;
-
-    &:hover .delete {
-        transform: scale(1.1);
-        transition: transform ease-in-out 1s;
-    }
 `;
 
 export default function ContactsPage() {
@@ -106,7 +101,7 @@ export default function ContactsPage() {
                     {contacts.map(contact => (
                         <ContactRow>
                             <ContactCards key = {contact._id} contact = {contact} />
-                            <Delete onClick = {() => deleteHandler(contact)}><FaTrash className = 'delete' fontSize = '30px' /></Delete>
+                            <Delete onClick = {() => deleteHandler(contact)}><FaTrash fontSize = '30px' /></Delete>
                         </ContactRow>
                     ))}
                 </>

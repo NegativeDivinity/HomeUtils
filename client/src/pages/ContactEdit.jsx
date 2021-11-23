@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { detailsContact, updateContact } from '../actions/contactAction';
+import { detailsContact, updateContact } from '../actions/contactActions';
 import { useNavigate, useParams } from 'react-router';
-import { CONTACT_DETAILS_RESET } from '../constants/contactConstants';
-import {MdOutlineKeyboardBackspace} from 'react-icons/md';
+import { CONTACT_DETAILS_RESET, CONTACT_UPDATE_RESET } from '../constants/contactConstants';
 
 const PageWrapper = styled.div`
     margin-top: 2%;
@@ -93,6 +92,12 @@ export default function ContactEdit() {
 
     useEffect(() => {
 
+        if (successUpdate) {
+            dispatch({type: CONTACT_UPDATE_RESET});
+            dispatch(detailsContact(id));
+            navigate('/contact')
+        }
+
         if (!contact || (contact._id !== id)) {
             dispatch({type: CONTACT_DETAILS_RESET});
             dispatch(detailsContact(id));
@@ -105,7 +110,7 @@ export default function ContactEdit() {
             setCompany(contact.company);
         }
         
-    }, [dispatch, id, contact, navigate]);
+    }, [dispatch, id, contact, successUpdate, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -179,11 +184,10 @@ export default function ContactEdit() {
                                 />
                             </div>
                             <Submit type = 'submit'>Update</Submit>
-                            {successUpdate && <MessageBox variant = 'success'>Successfully Updated</MessageBox>}
+                            {successUpdate && <MessageBox>success</MessageBox>}
                         </>
                 }
             </ContactEditForm>
-            <BackButton onClick = {() => navigate('/contact')}><MdOutlineKeyboardBackspace fontSize = '30px' /></BackButton>
             {errorUpdate && <MessageBox variant = 'danger'>{errorUpdate}</MessageBox>}
         </PageWrapper>
     )
