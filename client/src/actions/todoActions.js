@@ -52,12 +52,12 @@ export const deleteItem = (itemId) => async(dispatch, getState) => {
     }
 }
 
-export const updateItemTime = (itemId) => async(dispatch, getState) => {
-    dispatch({type: TODO_UPDATE_TIME_REQUEST, payload: itemId});
+export const updateItemTime = (item) => async(dispatch, getState) => {
+    dispatch({type: TODO_UPDATE_TIME_REQUEST, payload: item});
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.put(`/grouptodo/${itemId}`, {
+        const {data} = await axios.put(`/grouptodo/${item._id}`, item, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: TODO_UPDATE_TIME_SUCCESS, payload: data});
@@ -69,14 +69,11 @@ export const updateItemTime = (itemId) => async(dispatch, getState) => {
     }
 }
 
-export const detailsItem = (item) => async(dispatch, getState) => {
+export const detailsItem = (item) => async(dispatch) => {
     dispatch({type: TODO_DETAILS_REQUEST, payload: item});
-    const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.get(`/grouptodo/${item._id}`, item, {
-            headers: {Authorization: `Bearer ${userInfo.token}`}
-        });
+        const {data} = await axios.get(`/grouptodo/${item._id}`, item);
         dispatch({type: TODO_DETAILS_SUCCESS, payload: data});
     } catch (error) {
         const message = error.response && error.response.data.message

@@ -7,9 +7,10 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import TodoItemCard from '../components/todoItemCard';
 import { GiCheckMark } from 'react-icons/gi';
-import { TODO_ADD_RESET, TODO_DELETE_RESET } from '../constants/todoConstants';
+import { TODO_ADD_RESET, TODO_DELETE_RESET, TODO_UPDATE_TIME_RESET } from '../constants/todoConstants';
 import { useNavigate } from 'react-router';
 import { FaTrash } from 'react-icons/fa';
+import Priority from '../components/Priority';
 
 const PageWrapper = styled.div`
     display: flex;
@@ -54,15 +55,6 @@ const Done = styled.button`
     outline: none;
 `;
 
-const Priority = styled.button`
-    border: solid black 2px;
-    margin-left: 25%;
-    border-radius: 10px;
-    background-color: green;
-    cursor: pointer;
-    outline: none;
-`;
-
 const Delete = styled.button`
     margin-left: 20px;
     border: solid black 2px;
@@ -83,8 +75,13 @@ export default function GroupToDo() {
     const itemDelete = useSelector(state => state.itemDelete);
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = itemDelete;
 
+    const itemTimeUpdate = useSelector(state => state.itemTimeUpdate);
+    const {loading: loadingTime, error: errorTime, success: successTime} = itemTimeUpdate;
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const currentTime = new Date().toLocaleString();
+    const currentDay = new Date().getDate();
 
     useEffect(() => {
 
@@ -97,8 +94,13 @@ export default function GroupToDo() {
             dispatch({type: TODO_DELETE_RESET});
         }
 
+        if (successTime) {
+            dispatch({type: TODO_UPDATE_TIME_RESET});
+            dispatch(listTodo());
+        }
+
         dispatch(listTodo());
-    }, [dispatch, navigate, successCreate, successDelete, createdItem])
+    }, [dispatch, navigate, successCreate, successDelete, createdItem, successTime])
 
     const addHandler = () => {
         dispatch(addItem())
@@ -109,7 +111,15 @@ export default function GroupToDo() {
     }
 
     const updateTimeHandler = (item) => {
-        dispatch(updateItemTime(item._id));
+        dispatch(updateItemTime(item));
+    }
+
+    
+
+    const important = (item) => {
+        let currentDay = new Date().getDate();
+        console.log(currentDay)
+        
     }
 
     return (
@@ -124,10 +134,11 @@ export default function GroupToDo() {
                 <>
                     {items.map((item) => (
                         <ItemRow>
-                            <Priority><GiCheckMark fontSize = '30px' /></Priority>
+                            <Priority item = {item} />
                             <TodoItemCard key = {item._id} item = {item} time = {item.itemTime} />
                             <Done onClick = {() => updateTimeHandler(item)}><GiCheckMark fontSize = '30px' /></Done>
                             <Delete onClick = {() => deleteHandler(item)}><FaTrash fontSize = '30px' /></Delete>
+                            <button onClick = {important}>Test</button>
                         </ItemRow>
                     ))}
                 </>

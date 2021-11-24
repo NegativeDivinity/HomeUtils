@@ -38,9 +38,23 @@ todoRouter.delete('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     } else {
         res.status(404).send({message: 'Item not found'});
     }
-}))
+}));
 
-todoRouter.get('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+todoRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+    const item = await Todo.findById(req.params.id);
+    let time = new Date().toLocaleString();
+    if (item) {
+        item.title = item.title;
+        item.itemTime = time;
+
+        const updatedItem = await item.save();
+        res.send({message: 'Item Updated', item: updatedItem});
+    } else {
+        res.status(404).send({message: 'Item not found'});
+    }
+}));
+
+todoRouter.get('/:id', expressAsyncHandler(async(req, res) => {
     const item = await Todo.findById(req.params.id);
     if (item) {
         res.send(item)
