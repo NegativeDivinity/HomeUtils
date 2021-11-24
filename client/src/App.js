@@ -14,6 +14,8 @@ import Profile from './pages/Profile';
 import ContactsPage from './pages/ContactsPage';
 import ContactEdit from './pages/ContactEdit';
 import GroupToDo from './pages/GroupToDo';
+import GroupToDoEdit from './pages/GroupToDoEdit';
+import UserBio from './pages/UserBio';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -115,7 +117,7 @@ function App() {
               <Drop>
                 <Link to = '#'>Home Utils</Link>
                 <DropContent>
-                  <li><Link to = '#'>Users</Link></li>
+                  <li><Link to = '/userbio'>User Bios</Link></li>
                   <li><Link to = '/grouptodo'>To-Do-List</Link></li>
                   <li><Link to = '#'>Calendar</Link></li>
                   <li><Link to = '#'>Calculator</Link></li>
@@ -180,6 +182,22 @@ function App() {
               element = {
                 <PrivateRoute>
                   <GroupToDo/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/grouptodo/:id/edit' 
+              element = {
+                <PrivateRoute>
+                  <GroupToDoEdit/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/userbio' 
+              element = {
+                <PrivateRoute>
+                  <UserBio/> 
                 </PrivateRoute>
               }
             />

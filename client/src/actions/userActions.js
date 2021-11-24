@@ -9,7 +9,10 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_UPDATE_REQUEST,
     USER_DETAILS_UPDATE_SUCCEED,
-    USER_DETAILS_UPDATE_FAIL
+    USER_DETAILS_UPDATE_FAIL,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCEED,
+    USER_LIST_FAIL
 } from '../constants/userConstants.js';
 
 export const signin = (userName, password) => async(dispatch) => {
@@ -45,6 +48,23 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
         dispatch({type: USER_DETAILS_FAIL, payload: message});
+    }
+}
+
+export const listUser = () => async(dispatch, getState) => {
+    dispatch({type: USER_LIST_REQUEST});
+    const {userSignin: {userInfo}} = getState();
+
+    try {
+        const {data} = await axios.get('/users', {
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        });
+        dispatch({type: USER_LIST_SUCCEED, payload: data});
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        dispatch({type: USER_LIST_FAIL, payload: message});
     }
 }
 

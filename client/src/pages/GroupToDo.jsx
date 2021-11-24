@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { RiAddLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -27,7 +27,7 @@ const PageWrapper = styled.div`
 
 const Add = styled.button`
     width: 10%;
-    margin: 0 0 1% 25%;
+    margin: 0 0 1% 20%;
     border: solid black 2px;
     border-radius: 10px;
     cursor: pointer;
@@ -80,8 +80,6 @@ export default function GroupToDo() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const currentTime = new Date().toLocaleString();
-    const currentDay = new Date().getDate();
 
     useEffect(() => {
 
@@ -114,14 +112,6 @@ export default function GroupToDo() {
         dispatch(updateItemTime(item));
     }
 
-    
-
-    const important = (item) => {
-        let currentDay = new Date().getDate();
-        console.log(currentDay)
-        
-    }
-
     return (
         <PageWrapper>
             <h1>Group To-Do-List</h1>
@@ -138,7 +128,6 @@ export default function GroupToDo() {
                             <TodoItemCard key = {item._id} item = {item} time = {item.itemTime} />
                             <Done onClick = {() => updateTimeHandler(item)}><GiCheckMark fontSize = '30px' /></Done>
                             <Delete onClick = {() => deleteHandler(item)}><FaTrash fontSize = '30px' /></Delete>
-                            <button onClick = {important}>Test</button>
                         </ItemRow>
                     ))}
                 </>

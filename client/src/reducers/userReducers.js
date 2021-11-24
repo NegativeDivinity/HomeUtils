@@ -10,7 +10,11 @@ import {
     USER_DETAILS_UPDATE_REQUEST,
     USER_DETAILS_UPDATE_SUCCEED,
     USER_DETAILS_UPDATE_FAIL,
-    USER_DETAILS_UPDATE_RESET
+    USER_DETAILS_UPDATE_RESET,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCEED,
+    USER_LIST_FAIL,
+    USER_LIST_RESET
 } from '../constants/userConstants.js';
 
 export const userSigninReducer = (state = {}, action) => {
@@ -38,6 +42,21 @@ export const userDetailsReducer = (state = {loading: true}, action) => {
             return {loading: false, error: action.payload};
         case USER_DETAILS_RESET:
             return {loading: true};
+        default:
+            return state;
+    }
+}
+
+export const userListReducer = (state = {loading: true}, action) => {
+    switch (action.type) {
+        case USER_LIST_REQUEST:
+            return {loading: true};
+        case USER_LIST_SUCCEED:
+            return {loading: false, users: action.payload};
+        case USER_LIST_FAIL:
+            return {loading: false, error: action.payload};
+        case USER_LIST_RESET:
+            return {};
         default:
             return state;
     }

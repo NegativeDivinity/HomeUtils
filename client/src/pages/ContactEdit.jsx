@@ -55,21 +55,6 @@ const Submit = styled.button`
     }
 `;
 
-const BackButton = styled.button`
-    margin-left: 30%;
-    width: 5%;
-    color: white;
-    border-radius: 10px;
-    border: solid black 2px;
-    padding: 5px;
-    background-color: rgb(73, 73, 77);
-    cursor: pointer;
-
-    &:hover {
-        opacity: .7;
-    }
-`;
-
 export default function ContactEdit() {
 
     const dispatch = useDispatch();

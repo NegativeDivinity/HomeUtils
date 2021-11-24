@@ -1,4 +1,4 @@
-import {TODO_ADD_FAIL, TODO_ADD_REQUEST, TODO_ADD_RESET, TODO_ADD_SUCCESS, TODO_DELETE_FAIL, TODO_DELETE_REQUEST, TODO_DELETE_RESET, TODO_DELETE_SUCCESS, TODO_DETAILS_FAIL, TODO_DETAILS_REQUEST, TODO_DETAILS_RESET, TODO_DETAILS_SUCCESS, TODO_LIST_FAIL, TODO_LIST_REQUEST, TODO_LIST_RESET, TODO_LIST_SUCCESS, TODO_UPDATE_TIME_FAIL, TODO_UPDATE_TIME_REQUEST, TODO_UPDATE_TIME_RESET, TODO_UPDATE_TIME_SUCCESS} from '../constants/todoConstants';
+import {TODO_ADD_FAIL, TODO_ADD_REQUEST, TODO_ADD_RESET, TODO_ADD_SUCCESS, TODO_DELETE_FAIL, TODO_DELETE_REQUEST, TODO_DELETE_RESET, TODO_DELETE_SUCCESS, TODO_DETAILS_FAIL, TODO_DETAILS_REQUEST, TODO_DETAILS_RESET, TODO_DETAILS_SUCCESS, TODO_LIST_FAIL, TODO_LIST_REQUEST, TODO_LIST_RESET, TODO_LIST_SUCCESS, TODO_UPDATE_FAIL, TODO_UPDATE_REQUEST, TODO_UPDATE_RESET, TODO_UPDATE_SUCCESS, TODO_UPDATE_TIME_FAIL, TODO_UPDATE_TIME_REQUEST, TODO_UPDATE_TIME_RESET, TODO_UPDATE_TIME_SUCCESS} from '../constants/todoConstants';
 
 export const todoListReducer = (state = {loading: true}, action) => {
     switch (action.type) {
@@ -69,6 +69,21 @@ export const itemDetailsReducer = (state = {loading: true}, action) => {
         case TODO_DETAILS_FAIL:
             return {loading: false, error: action.payload};
         case TODO_DETAILS_RESET:
+            return {};
+        default:
+            return state;
+    }
+}
+
+export const itemUpdateReducer = (state = {loading: true}, action) => {
+    switch (action.type) {
+        case TODO_UPDATE_REQUEST:
+            return {loading: true};
+        case TODO_UPDATE_SUCCESS:
+            return {loading: false, success: true};
+        case TODO_UPDATE_FAIL:
+            return {loading: false, error: action.payload};
+        case TODO_UPDATE_RESET:
             return {};
         default:
             return state;

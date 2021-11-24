@@ -1,8 +1,8 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { contactAddReducer, contactDeleteReducer, contactDetailsReducer, contactListReducer, contactUpdateReducer } from './reducers/contactReducer';
-import { itemAddReducer, itemDeleteReducer, itemDetailsReducer, itemTimeUpdateReducer, todoListReducer } from './reducers/todoReducers';
-import { userDetailsReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
+import { itemAddReducer, itemDeleteReducer, itemDetailsReducer, itemTimeUpdateReducer, itemUpdateReducer, todoListReducer } from './reducers/todoReducers';
+import { userDetailsReducer, userListReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
 
 const initialState = {
     userSignin: {
@@ -15,6 +15,7 @@ const initialState = {
 const reducer = combineReducers({
     userSignin: userSigninReducer,
     userDetails: userDetailsReducer,
+    userList: userListReducer,
     userUpdate: userUpdateReducer,
     contactList: contactListReducer,
     contactAdd: contactAddReducer,
@@ -26,6 +27,7 @@ const reducer = combineReducers({
     itemDetails: itemDetailsReducer,
     itemDelete: itemDeleteReducer,
     itemTimeUpdate: itemTimeUpdateReducer,
+    itemUpdate: itemUpdateReducer,
     
 });
 

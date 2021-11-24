@@ -54,6 +54,19 @@ todoRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     }
 }));
 
+todoRouter.put('/:id/edit', isAuth, expressAsyncHandler(async(req, res) => {
+    const item = await Todo.findById(req.params.id);
+    if (item) {
+        item.title = req.body.title || item.title;
+        item.itemTime = req.body.date || item.itemTime;
+
+        const updatedItem = await item.save();
+        res.send({message: 'Item Updated', item: updatedItem});
+    } else {
+        res.status(404).send({message: 'Item not found'});
+    }
+}));
+
 todoRouter.get('/:id', expressAsyncHandler(async(req, res) => {
     const item = await Todo.findById(req.params.id);
     if (item) {

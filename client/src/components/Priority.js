@@ -11,7 +11,7 @@ export default function Priority(props) {
 
     const PageWrapper = styled.button`
         border: solid black 2px;
-        margin-left: 25%;
+        margin-left: 20%;
         border-radius: 10px;
         background-color: ${button};
         outline: none;
