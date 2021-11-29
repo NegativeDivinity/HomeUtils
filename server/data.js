@@ -8,6 +8,12 @@ const data = {
             userName: 'NegativeDivinity',
             email: 'bcanderson0201@gmail.com',
             password: bcrypt.hashSync('1234', 8),
+            company: 'Oregon High School',
+            jobTitle: 'Helpdesk',
+            birthday: '02/02/2001',
+            medicalWarning: 'Yes',
+            favMovie: 'Doctor Strange',
+            favSong: 'Sunflower',
             isAdmin: true,
         },
         {

@@ -25,6 +25,12 @@ userRouter.post('/signin', expressAsyncHandler(async(req, res) => {
                 email: user.email,
                 userName: user.userName,
                 isAdmin: user.isAdmin,
+                company: user.company,
+                jobTitle: user.jobTitle,
+                birthday: user.birthday,
+                medicalWarning: user.medicalWarning,
+                favMovie: user.favMovie,
+                favSong: user.favSong,
                 token: generateToken(user),
             });
         } else {
@@ -56,6 +62,12 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async(req, res) => {
         user.lastName = req.body.lastName || user.lastName;
         user.userName = req.body.userName || user.userName;
         user.email = req.body.email || user.email;
+        user.company = req.body.company || user.company;
+        user.jobTitle = req.body.jobTitle || user.jobTitle;
+        user.birthday = req.body.birthday || user.birthday;
+        user.medicalWarning = req.body.medicalWarning || user.medicalWarning;
+        user.favMovie = req.body.favMovie || user.favMovie;
+        user.favSong = req.body.favSong || user.favSong;
 
         if (req.body.password) {
             user.password = bcrypt.hashSync(req.body.password, 8);
@@ -69,6 +81,12 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async(req, res) => {
             userName: updatedUser.userName,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin,
+            company: updatedUser.company,
+            jobTitle: updatedUser.jobTitle,
+            birthday: updatedUser.birthday,
+            medicalWarning: updatedUser.medicalWarning,
+            favMovie: updatedUser.favMovie,
+            favSong: updatedUser.favSong,
             token: generateToken(updatedUser),
         });
     } else {

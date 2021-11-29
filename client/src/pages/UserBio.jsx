@@ -7,7 +7,15 @@ import MessageBox from '../components/MessageBox';
 import UserCard from '../components/UserCard';
 
 const PageWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+`;
 
+const CardWrapper = styled.div`
+    display: flex;
+    width: 80%;
+    margin-left: 10%;
 `;
 
 export default function UserBio() {
@@ -23,17 +31,20 @@ export default function UserBio() {
 
     return (
         <PageWrapper>
-            {loading ? (
-                <LoadingBox />
-            ) : error ? (
-                <MessageBox variant = 'danger'>{error}</MessageBox>
-            ) : (
-                <>
-                    {users.map(user => (
-                        <UserCard key = {user._id} user = {user} />
-                    ))}
-                </>
-            )}
+            <h1>User Bios</h1>
+            <CardWrapper>
+                {loading ? (
+                    <LoadingBox />
+                ) : error ? (
+                    <MessageBox variant = 'danger'>{error}</MessageBox>
+                ) : (
+                    <>
+                        {users.map(user => (
+                            <UserCard key = {user._id} user = {user} />
+                        ))}
+                    </>
+                )}
+            </CardWrapper>
         </PageWrapper>
     )
 }
