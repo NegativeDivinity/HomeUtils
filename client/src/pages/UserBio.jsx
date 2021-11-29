@@ -10,6 +10,12 @@ const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
     text-align: center;
+    color: white;
+
+    h1 {
+        font-size: 40px;
+        margin-top: 5%;
+    }
 `;
 
 const CardWrapper = styled.div`

@@ -2,8 +2,19 @@ import React from 'react';
 import {useNavigate} from 'react-router';
 import styled from 'styled-components';
 
-const PageWrapper = styled.div`
-    margin-left: 5%;
+const PageWrapper = styled.button`
+    width: 50%;
+    margin: 5%;
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(73, 73, 77);
+    border-radius: 10px;
+    outline: none;
+    border: none;
+
+    &:hover {
+        opacity: .8;
+    }
 `;
 
 export default function UserCard(props) {
@@ -13,7 +24,7 @@ export default function UserCard(props) {
 
     return (
        <PageWrapper onClick = {() => navigate(`/userbio/${user._id}`)}>
-           <h1>{user.firstName} {user.lastName}</h1>
+           <h2>{user.firstName} {user.lastName}</h2>
        </PageWrapper>
     )
 }

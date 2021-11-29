@@ -201,6 +201,14 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route 
+              exact path = '/userbio/:id' 
+              element = {
+                <PrivateRoute>
+                  <UserBio/> 
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </Main>
       </PageWrapper>
