@@ -2,6 +2,17 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+const contactSchema = Schema({
+    name: {type: String, required: true},
+    nickName: {type: String},
+    phone: {type: Number, required: true},
+    email: {type: String},
+    job: {type: String},
+    company: {type: String},
+}, {
+    timestamps: true,
+});
+
 const userSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
@@ -15,6 +26,7 @@ const userSchema = new Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     isAdmin: {type: Boolean, default: false, required: true},
+    contacts: [contactSchema],
 }, {
     timestamps: true,
 });

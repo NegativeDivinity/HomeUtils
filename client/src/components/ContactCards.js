@@ -23,10 +23,11 @@ const ContactCard = styled.button`
 export default function ContactCards(props) {
 
     const {contact} = props;
+    const {userId} = props;
     const navigate = useNavigate();
 
     return (
-        <ContactCard key = {contact._id} onClick = {() => navigate(`/contact/${contact._id}/edit`)}>
+        <ContactCard key = {contact._id} onClick = {() => navigate(`/contact/${userId}/${contact._id}`)}>
             <p>{contact.name}</p>
             <p>{contact.phone}</p>
         </ContactCard>

@@ -74,6 +74,7 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async(req, res) => {
         }
 
         const updatedUser = await user.save();
+
         res.send({
             _id: updatedUser._id,
             firstName: updatedUser.firstName,
@@ -93,5 +94,62 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async(req, res) => {
         res.status(404).send({message: 'User not found'});
     };
 }));
+
+userRouter.post('/:id/contacts', isAuth, expressAsyncHandler(async(req, res) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (user) {
+        const contact = {
+            name: 'default name',
+            phone: 1
+        }
+        user.contacts.push(contact);
+        const updatedUser = await user.save();
+        res.send({message: 'Created Contact', contact: updatedUser.contacts})
+    }
+}));
+
+userRouter.delete('/:id/contact/:cid', isAuth, expressAsyncHandler(async(req, res) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    const contactId = req.params.cid;
+    if (user) {
+        user.contacts.remove(contactId);
+        const updatedUser = await user.save();
+        res.send({message: 'Contact Deleted', contact: updatedUser.contacts});
+    }
+}));
+
+userRouter.get('/:id/contact/:cid', expressAsyncHandler(async(req, res) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    const contactId = req.params.cid;
+    if (user) {
+        res.send(user.contacts.id(contactId));
+    }
+}))
+
+userRouter.post('/:id/contact', isAuth, expressAsyncHandler(async(req, res) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (user) {
+        const contact = {
+            name: req.body.name,
+            nickName: req.body.nickName,
+            phone: req.body.phone,
+            email: req.body.email,
+            job: req.body.job,
+            company: req.body.company,
+        }
+        user.contacts.push(contact);
+        
+        const updatedUser = await user.save();
+        res.status(201).send({message: 'Contact Created', contact: updatedUser.contacts});
+    } else {
+        res.status(404).send({message: 'User not found'});
+    }
+}))
 
 export default userRouter;

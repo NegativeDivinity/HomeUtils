@@ -9,8 +9,9 @@ import {RiAddLine} from 'react-icons/ri';
 import ContactCards from '../components/ContactCards';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { ADD_CONTACT_RESET, DELETE_CONTACT_RESET } from '../constants/contactConstants';
+import { detailsUser } from '../actions/userActions';
 
 const PageWrapper = styled.div`
     display: flex;
@@ -57,35 +58,40 @@ const Delete = styled.button`
 
 export default function ContactsPage() {
 
-    const contactList = useSelector(state => state.contactList);
-    const {loading, error, contacts} = contactList;
+    const {id} = useParams();
+
+    const userDetails = useSelector(state => state.userDetails);
+    const {loading, error, user} = userDetails;
 
     const contactAdd = useSelector(state => state.contactAdd);
-    const {loading: loadingContact, success: successCreate, error: errorContact, contact: createdContact} = contactAdd;
+    const {success: successAdd, contact} = contactAdd;
 
     const contactDelete = useSelector(state => state.contactDelete);
-    const {loading: loadingDelete, success: successDelete, error: errorDelete} = contactDelete;
+    const {success: successDelete} = contactDelete;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (successCreate) {
+        if (successAdd) {
             dispatch({type: ADD_CONTACT_RESET});
-            navigate(`/contact/${createdContact._id}/edit`);
+            navigate(`/contact/${contact._id}`);
         }
+
         if (successDelete) {
             dispatch({type: DELETE_CONTACT_RESET});
+            dispatch(detailsUser(id))
         }
-        dispatch(listContact());
-    }, [dispatch, navigate, successCreate, successDelete, createdContact]);
+
+        dispatch(detailsUser(id));
+    }, [dispatch, navigate, id, successAdd, successDelete]);
 
     const addHandler = () => {
-        dispatch(addContact());
+        dispatch(addContact(id));
     }
 
     const deleteHandler = (contact) => {
-        dispatch(deleteContact(contact._id));
+        dispatch(deleteContact(id, contact._id));
     }
 
     return (
@@ -98,18 +104,14 @@ export default function ContactsPage() {
                 :
                 (
                 <>
-                    {contacts.map(contact => (
+                    {user.contacts.map(contact => (
                         <ContactRow>
-                            <ContactCards key = {contact._id} contact = {contact} />
+                            <ContactCards key = {contact._id} contact = {contact} userId = {id}/>
                             <Delete onClick = {() => deleteHandler(contact)}><FaTrash fontSize = '30px' /></Delete>
                         </ContactRow>
                     ))}
                 </>
             )}
-            {loadingContact && <LoadingBox />}
-            {errorContact && <MessageBox variant = 'danger'>{errorContact}</MessageBox>}
-            {loadingDelete && <LoadingBox />}
-            {errorDelete && <MessageBox variant = 'danger'>{errorDelete}</MessageBox>}
         </PageWrapper>
     )
 }

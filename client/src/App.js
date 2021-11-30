@@ -16,6 +16,7 @@ import ContactEdit from './pages/ContactEdit';
 import GroupToDo from './pages/GroupToDo';
 import GroupToDoEdit from './pages/GroupToDoEdit';
 import UserBio from './pages/UserBio';
+import UserBioView from './pages/UserBioView';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -136,7 +137,8 @@ function App() {
                 <DropContent>
                   <li><Link to = '/profile'>Profile</Link></li>
                   <li><Link to = '#'>To-Do-List</Link></li>
-                  <li><Link to = '/contact'>Contact List</Link></li>
+                  <li><Link to = {`/contacts/${userInfo._id}`}>Contact List</Link></li>
+                  {userInfo.isAdmin && <li><Link to = '/users'>Users</Link></li>}
                   <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
                 </DropContent>
               </Drop>
@@ -146,7 +148,7 @@ function App() {
         <Main>
           <Routes>
             <Route 
-              exact path = '/contact/:id/edit' 
+              exact path = '/contact/:id/:cid' 
               element = {
                 <PrivateRoute>
                   <ContactEdit/> 
@@ -170,7 +172,7 @@ function App() {
               }
             />
             <Route 
-              exact path = '/contact' 
+              exact path = '/contacts/:id' 
               element = {
                 <PrivateRoute>
                   <ContactsPage/> 
@@ -205,7 +207,7 @@ function App() {
               exact path = '/userbio/:id' 
               element = {
                 <PrivateRoute>
-                  <UserBio/> 
+                  <UserBioView/> 
                 </PrivateRoute>
               }
             />

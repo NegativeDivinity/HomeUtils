@@ -11,6 +11,7 @@ const PageWrapper = styled.button`
     border-radius: 10px;
     outline: none;
     border: none;
+    color: white;
 
     &:hover {
         opacity: .8;

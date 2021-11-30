@@ -6,6 +6,7 @@ import MessageBox from '../components/MessageBox';
 import { detailsContact, updateContact } from '../actions/contactActions';
 import { useNavigate, useParams } from 'react-router';
 import { CONTACT_DETAILS_RESET, CONTACT_UPDATE_RESET } from '../constants/contactConstants';
+import { detailsUser } from '../actions/userActions';
 
 const PageWrapper = styled.div`
     margin-top: 2%;
@@ -61,6 +62,7 @@ export default function ContactEdit() {
     const navigate = useNavigate();
 
     const {id} = useParams();
+    const {cid} = useParams();
 
     const [name, setName] = useState('');
     const [nickName, setNickName] = useState('');
@@ -69,8 +71,11 @@ export default function ContactEdit() {
     const [job, setJob] = useState('');
     const [company, setCompany] = useState('');
 
+    const userDetails = useSelector(state => state.userDetails);
+    const {loading, error, user} = userDetails;
+
     const contactDetails = useSelector(state => state.contactDetails);
-    const {loading, error, contact} = contactDetails;
+    const {contact: contactD} = contactDetails;
 
     const contactUpdate = useSelector(state => state.contactUpdate);
     const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = contactUpdate;
@@ -83,24 +88,16 @@ export default function ContactEdit() {
             navigate('/contact')
         }
 
-        if (!contact || (contact._id !== id)) {
-            dispatch({type: CONTACT_DETAILS_RESET});
-            dispatch(detailsContact(id));
-        } else {
-            setName(contact.name);
-            setNickName(contact.nickName);
-            setPhone(contact.phone);
-            setEmail(contact.email);
-            setJob(contact.job);
-            setCompany(contact.company);
-        }
         
-    }, [dispatch, id, contact, successUpdate, navigate]);
+
+        dispatch(detailsUser(id));
+        dispatch(detailsContact(id, cid));
+    }, [dispatch, id, user, successUpdate, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault();
         
-        dispatch(updateContact({_id: contact._id, name, nickName, phone, email, job, company}));
+        dispatch(updateContact({_id: user.contact._id, name, nickName, phone, email, job, company}));
     }
 
     return (
@@ -113,7 +110,7 @@ export default function ContactEdit() {
                         <MessageBox variant = 'danger'>{error}</MessageBox>
                     ) :
                         <>
-                            <h1>{contact.name}</h1>
+                            <h1>{contactD.name}</h1>
                             <div>
                                 <label htmlFor="name">Name: </label>
                                 <input 
