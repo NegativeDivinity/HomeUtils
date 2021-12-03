@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const contactSchema = Schema({
     name: {type: String, required: true},
     nickName: {type: String},
-    phone: {type: Number, required: true},
+    phone: {type: String, required: true},
     email: {type: String},
     job: {type: String},
     company: {type: String},

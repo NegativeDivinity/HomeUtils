@@ -101,11 +101,11 @@ userRouter.post('/:id/contacts', isAuth, expressAsyncHandler(async(req, res) => 
     if (user) {
         const contact = {
             name: 'default name',
-            phone: 1
+            phone: '(111) 111-1111',
         }
         user.contacts.push(contact);
         const updatedUser = await user.save();
-        res.send({message: 'Created Contact', contact: updatedUser.contacts})
+        res.send({message: 'Created Contact', contact: updatedUser.contacts});
     }
 }));
 
@@ -129,24 +129,26 @@ userRouter.get('/:id/contact/:cid', expressAsyncHandler(async(req, res) => {
     if (user) {
         res.send(user.contacts.id(contactId));
     }
-}))
+}));
 
-userRouter.post('/:id/contact', isAuth, expressAsyncHandler(async(req, res) => {
+userRouter.put('/:id/:cid', isAuth, expressAsyncHandler(async(req, res) => {
     const userId = req.params.id;
     const user = await User.findById(userId);
+
+    const contactId = req.params.cid;
+    const contact = user.contacts.id(contactId);
     if (user) {
-        const contact = {
-            name: req.body.name,
-            nickName: req.body.nickName,
-            phone: req.body.phone,
-            email: req.body.email,
-            job: req.body.job,
-            company: req.body.company,
-        }
-        user.contacts.push(contact);
+
+        contact.name = req.body.name || contact.name;
+        contact.nickName = req.body.nickName || contact.nickName;
+        contact.phone = req.body.phone || contact.phone;
+        contact.email = req.body.email || contact.email;
+        contact.job = req.body.job || contact.job;
+        contact.company = req.body.company || contact.company;
         
         const updatedUser = await user.save();
-        res.status(201).send({message: 'Contact Created', contact: updatedUser.contacts});
+
+        res.status(201).send({message: 'Contact Updated', contact: updatedUser.contacts});
     } else {
         res.status(404).send({message: 'User not found'});
     }

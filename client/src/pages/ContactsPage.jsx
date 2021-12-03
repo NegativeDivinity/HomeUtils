@@ -75,12 +75,13 @@ export default function ContactsPage() {
     useEffect(() => {
         if (successAdd) {
             dispatch({type: ADD_CONTACT_RESET});
-            navigate(`/contact/${contact._id}`);
+            dispatch(detailsUser(id));
+            navigate(`/contact/${id}/${contact._id}`);
         }
 
         if (successDelete) {
             dispatch({type: DELETE_CONTACT_RESET});
-            dispatch(detailsUser(id))
+            dispatch(detailsUser(id));
         }
 
         dispatch(detailsUser(id));

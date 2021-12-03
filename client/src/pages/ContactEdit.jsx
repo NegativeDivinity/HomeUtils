@@ -5,8 +5,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { detailsContact, updateContact } from '../actions/contactActions';
 import { useNavigate, useParams } from 'react-router';
-import { CONTACT_DETAILS_RESET, CONTACT_UPDATE_RESET } from '../constants/contactConstants';
-import { detailsUser } from '../actions/userActions';
+import {CONTACT_UPDATE_RESET } from '../constants/contactConstants';
+import PhoneInput from '../components/PhoneInput';
 
 const PageWrapper = styled.div`
     margin-top: 2%;
@@ -71,11 +71,8 @@ export default function ContactEdit() {
     const [job, setJob] = useState('');
     const [company, setCompany] = useState('');
 
-    const userDetails = useSelector(state => state.userDetails);
-    const {loading, error, user} = userDetails;
-
     const contactDetails = useSelector(state => state.contactDetails);
-    const {contact: contactD} = contactDetails;
+    const {loading: loadingDetail, error: errorDetail, contact} = contactDetails;
 
     const contactUpdate = useSelector(state => state.contactUpdate);
     const {loading: loadingUpdate, error: errorUpdate, success: successUpdate} = contactUpdate;
@@ -84,33 +81,41 @@ export default function ContactEdit() {
 
         if (successUpdate) {
             dispatch({type: CONTACT_UPDATE_RESET});
-            dispatch(detailsContact(id));
-            navigate('/contact')
+            navigate(`/contacts/${id}`)
         }
 
-        
+        if (!contact) {
+            dispatch({type: CONTACT_UPDATE_RESET});
+            dispatch(detailsContact(id, cid));
+        } else {
+            setName(contact.name);
+            setNickName(contact.nickName);
+            setPhone(contact.phone);
+            setEmail(contact.email);
+            setJob(contact.job);
+            setCompany(contact.company);
+        }
 
-        dispatch(detailsUser(id));
         dispatch(detailsContact(id, cid));
-    }, [dispatch, id, user, successUpdate, navigate]);
+    }, [dispatch, id, cid, navigate, successUpdate]);
 
     const submitHandler = (e) => {
         e.preventDefault();
         
-        dispatch(updateContact({_id: user.contact._id, name, nickName, phone, email, job, company}));
+        dispatch(updateContact(id, {_id: contact._id, name, nickName, phone, email, job, company}));
     }
 
     return (
         <PageWrapper>
             {loadingUpdate && <LoadingBox />}
             <ContactEditForm onSubmit = {submitHandler}>
-                {loading ? (
+                {loadingDetail ? (
                         <LoadingBox />
-                    ) : error ? (
-                        <MessageBox variant = 'danger'>{error}</MessageBox>
+                    ) : errorDetail ? (
+                        <MessageBox variant = 'danger'>{errorDetail}</MessageBox>
                     ) :
                         <>
-                            <h1>{contactD.name}</h1>
+                            <h1>{contact.name}</h1>
                             <div>
                                 <label htmlFor="name">Name: </label>
                                 <input 
@@ -131,17 +136,12 @@ export default function ContactEdit() {
                             </div>
                             <div>
                                 <label htmlFor="phone">Phone: </label>
-                                <input 
-                                    type="text" 
-                                    id = 'phone' 
-                                    value = {phone} 
-                                    onChange = {(e) => setPhone(e.target.value)}
-                                />
+                                <PhoneInput phone = {phone} setPhone = {setPhone} />
                             </div>
                             <div>
                                 <label htmlFor="email">Email: </label>
                                 <input 
-                                    type="text" 
+                                    type="email" 
                                     id = 'email' 
                                     value = {email} 
                                     onChange = {(e) => setEmail(e.target.value)}
@@ -166,7 +166,6 @@ export default function ContactEdit() {
                                 />
                             </div>
                             <Submit type = 'submit'>Update</Submit>
-                            {successUpdate && <MessageBox>success</MessageBox>}
                         </>
                 }
             </ContactEditForm>

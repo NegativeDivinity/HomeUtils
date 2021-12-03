@@ -32,12 +32,12 @@ export const detailsContact = (userId, contactId) => async(dispatch) => {
     }
 }
 
-export const updateContact = (contact) => async(dispatch, getState) => {
-    dispatch({type: CONTACT_UPDATE_REQUEST, payload: contact});
+export const updateContact = (userId, contact) => async(dispatch, getState) => {
+    dispatch({type: CONTACT_UPDATE_REQUEST, payload: {userId, contact}});
     const {userSignin: {userInfo}} = getState();
     
     try {
-        const {data} = await axios.put(`/contact/${contact._id}`, contact, {
+        const {data} = await axios.put(`/users/${userId}/${contact._id}`, contact, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
 
