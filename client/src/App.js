@@ -133,7 +133,7 @@ function App() {
                 <DropContent>
                   <li><Link to = '/grocery'>Grocery List</Link></li>
                   <li><Link to = '#'>Groceries</Link></li>
-                  <li><Link to = '#'>Recipes</Link></li>
+                  <li><Link to = '/recipe'>Recipes</Link></li>
                 </DropContent>
               </Drop>
               <Drop>
