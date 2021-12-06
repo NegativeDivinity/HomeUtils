@@ -1,8 +1,9 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { contactAddReducer, contactDeleteReducer, contactDetailsReducer, contactListReducer, contactUpdateReducer } from './reducers/contactReducer';
+import { groceryAddReducer, groceryDeleteReducer, groceryDetailsReducer, groceryListReducer, groceryUpdateReducer } from './reducers/groceryReducer';
 import { itemAddReducer, itemDeleteReducer, itemDetailsReducer, itemTimeUpdateReducer, itemUpdateReducer, todoListReducer } from './reducers/todoReducers';
-import { userDetailsReducer, userListReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
+import { userAddReducer, userDeleteReducer, userDetailsReducer, userListReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
 
 const initialState = {
     userSignin: {
@@ -28,7 +29,14 @@ const reducer = combineReducers({
     itemDelete: itemDeleteReducer,
     itemTimeUpdate: itemTimeUpdateReducer,
     itemUpdate: itemUpdateReducer,
-    
+    userAdd: userAddReducer,
+    userDelete: userDeleteReducer,
+    groceryList: groceryListReducer,
+    groceryDetails: groceryDetailsReducer,
+    groceryAdd: groceryAddReducer,
+    groceryUpdate: groceryUpdateReducer,
+    groceryDelete: groceryDeleteReducer,
+
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

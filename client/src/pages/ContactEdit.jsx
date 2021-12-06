@@ -97,7 +97,7 @@ export default function ContactEdit() {
         }
 
         dispatch(detailsContact(id, cid));
-    }, [dispatch, id, cid, navigate, successUpdate]);
+    }, [dispatch, id, cid, navigate, successUpdate, contact]);
 
     const submitHandler = (e) => {
         e.preventDefault();

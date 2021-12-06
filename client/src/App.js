@@ -17,6 +17,10 @@ import GroupToDo from './pages/GroupToDo';
 import GroupToDoEdit from './pages/GroupToDoEdit';
 import UserBio from './pages/UserBio';
 import UserBioView from './pages/UserBioView';
+import Users from './pages/Users';
+import UserEdit from './pages/UserEdit';
+import Grocery from './pages/Grocery';
+import GroceryEdit from './pages/GroceryEdit';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -127,7 +131,7 @@ function App() {
               <Drop>
                 <Link to = '#'>Grocery Utils</Link>
                 <DropContent>
-                  <li><Link to = '#'>Grocery List</Link></li>
+                  <li><Link to = '/grocery'>Grocery List</Link></li>
                   <li><Link to = '#'>Groceries</Link></li>
                   <li><Link to = '#'>Recipes</Link></li>
                 </DropContent>
@@ -200,6 +204,38 @@ function App() {
               element = {
                 <PrivateRoute>
                   <UserBio/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/users' 
+              element = {
+                <PrivateRoute>
+                  <Users/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/users/:id' 
+              element = {
+                <PrivateRoute>
+                  <UserEdit/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/grocery' 
+              element = {
+                <PrivateRoute>
+                  <Grocery/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/grocery/:id' 
+              element = {
+                <PrivateRoute>
+                  <GroceryEdit/> 
                 </PrivateRoute>
               }
             />

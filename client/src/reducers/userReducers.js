@@ -14,7 +14,15 @@ import {
     USER_LIST_REQUEST,
     USER_LIST_SUCCEED,
     USER_LIST_FAIL,
-    USER_LIST_RESET
+    USER_LIST_RESET,
+    USER_ADD_REQUEST,
+    USER_ADD_SUCCEED,
+    USER_ADD_FAIL,
+    USER_ADD_RESET,
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCEED,
+    USER_DELETE_FAIL,
+    USER_DELETE_RESET
 } from '../constants/userConstants.js';
 
 export const userSigninReducer = (state = {}, action) => {
@@ -71,6 +79,36 @@ export const userUpdateReducer = (state = {}, action) => {
         case USER_DETAILS_UPDATE_FAIL:
             return {loading: false, error: action.payload};
         case USER_DETAILS_UPDATE_RESET:
+            return {};
+        default:
+            return state;
+    }
+}
+
+export const userAddReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_ADD_REQUEST:
+            return {loading: true};
+        case USER_ADD_SUCCEED:
+            return {loading: false, success: true, user: action.payload};
+        case USER_ADD_FAIL:
+            return {loading: false, error: action.payload};
+        case USER_ADD_RESET:
+            return {};
+        default:
+            return state;
+    }
+}
+
+export const userDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_DELETE_REQUEST:
+            return {loading: true};
+        case USER_DELETE_SUCCEED:
+            return {loading: false, success: true};
+        case USER_DELETE_FAIL:
+            return {loading: false, error: action.payload};
+        case USER_DELETE_RESET:
             return {};
         default:
             return state;

@@ -46,6 +46,26 @@ userRouter.get('/', isAuth, expressAsyncHandler(async(req, res) => {
     res.send(users);
 }));
 
+userRouter.post('/', isAuth, expressAsyncHandler(async(req, res) => {
+    const user = new User({
+        firstName: 'default',
+        userName: 'bitch',
+        password: 'password',
+    });
+    const newUser = await user.save();
+    res.send({message: 'User Created', user: newUser});
+}));
+
+userRouter.delete('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+        const deletedUser = await user.remove();
+        res.send({message: 'User Deleted', user: deletedUser});
+    } else {
+        res.status(404).send({message: 'User not found'});
+    }
+}));
+
 userRouter.get('/:id', expressAsyncHandler(async(req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {

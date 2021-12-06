@@ -12,7 +12,13 @@ import {
     USER_DETAILS_UPDATE_FAIL,
     USER_LIST_REQUEST,
     USER_LIST_SUCCEED,
-    USER_LIST_FAIL
+    USER_LIST_FAIL,
+    USER_ADD_REQUEST,
+    USER_ADD_SUCCEED,
+    USER_ADD_FAIL,
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCEED,
+    USER_DELETE_FAIL
 } from '../constants/userConstants.js';
 
 export const signin = (userName, password) => async(dispatch) => {
@@ -85,5 +91,39 @@ export const updateUser = (user) => async (dispatch, getState) => {
             ? error.response.data.message
             : error.message;
         dispatch({type: USER_DETAILS_UPDATE_FAIL, payload: message});
+    }
+}
+
+export const addUser = () => async (dispatch, getState) => {
+    dispatch({type: USER_ADD_REQUEST});
+    const {userSignin: {userInfo}} = getState();
+
+    try {
+        const {data} = await axios.post('/users', {}, {
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        });
+        dispatch({type: USER_ADD_SUCCEED, payload: data.user});
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        dispatch({type: USER_ADD_FAIL, payload: message});
+    }
+}
+
+export const deleteUser = (userId) => async (dispatch, getState) => {
+    dispatch({type: USER_DELETE_REQUEST, payload: userId});
+    const {userSignin: {userInfo}} = getState();
+
+    try {
+        const {data} = await axios.delete(`/users/${userId}`, {
+            headers: {Authorization: `Bearer ${userInfo.token}`}
+        });
+        dispatch({type: USER_DELETE_SUCCEED});
+    } catch (error) {
+        const message = error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message;
+        dispatch({type: USER_DELETE_FAIL, payload: message});
     }
 }

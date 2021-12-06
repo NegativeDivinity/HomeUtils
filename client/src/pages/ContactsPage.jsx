@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { addContact, deleteContact, listContact } from '../actions/contactActions';
+import { addContact, deleteContact } from '../actions/contactActions';
 import {FaTrash} from 'react-icons/fa';
 import {RiAddLine} from 'react-icons/ri';
 
@@ -16,12 +16,18 @@ import { detailsUser } from '../actions/userActions';
 const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    text-align: center;
     margin-top: 2%;
 
     h1 {
         font-size: 40px;
         color: white;
+        text-align: center;
+    }
+
+    h3 {
+        color: white;
+        margin-left: 25%;
+        font-size: 30px;
     }
     
 `;
@@ -64,7 +70,7 @@ export default function ContactsPage() {
     const {loading, error, user} = userDetails;
 
     const contactAdd = useSelector(state => state.contactAdd);
-    const {success: successAdd, contact} = contactAdd;
+    const {success: successAdd} = contactAdd;
 
     const contactDelete = useSelector(state => state.contactDelete);
     const {success: successDelete} = contactDelete;
@@ -76,7 +82,6 @@ export default function ContactsPage() {
         if (successAdd) {
             dispatch({type: ADD_CONTACT_RESET});
             dispatch(detailsUser(id));
-            navigate(`/contact/${id}/${contact._id}`);
         }
 
         if (successDelete) {
@@ -95,6 +100,19 @@ export default function ContactsPage() {
         dispatch(deleteContact(id, contact._id));
     }
 
+    const checker = () => {
+        for (var i = 0; i < user.contacts.length; i++) {
+            if (user.contacts[i].name === 'default name') {
+                var x = true;
+                break;
+            } else {
+                var x = false;
+            }
+        }
+
+        return x;
+    }
+
     return (
         <PageWrapper>
             <h1>Contacts</h1>
@@ -105,7 +123,15 @@ export default function ContactsPage() {
                 :
                 (
                 <>
-                    {user.contacts.map(contact => (
+                    {checker() === true && <h3>Unfinished:</h3>}
+                    {user.contacts.filter(contact => contact.name === 'default name').map(contact => (
+                        <ContactRow>
+                            <ContactCards key = {contact._id} contact = {contact} userId = {id}/>
+                            <Delete onClick = {() => deleteHandler(contact)}><FaTrash fontSize = '30px' /></Delete>
+                        </ContactRow>
+                    ))}
+                    <h3>Completed Contacts:</h3>
+                    {user.contacts.filter(contact => contact.name !== 'default name').sort((a, b) => a.name.localeCompare(b.name)).map(contact => (
                         <ContactRow>
                             <ContactCards key = {contact._id} contact = {contact} userId = {id}/>
                             <Delete onClick = {() => deleteHandler(contact)}><FaTrash fontSize = '30px' /></Delete>

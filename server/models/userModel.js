@@ -15,7 +15,7 @@ const contactSchema = Schema({
 
 const userSchema = new Schema({
     firstName: {type: String, required: true},
-    lastName: {type: String, required: true},
+    lastName: {type: String},
     jobTitle: {type: String},
     birthday: {type: Date},
     company: {type: String},
@@ -23,9 +23,9 @@ const userSchema = new Schema({
     favMovie: {type: String},
     favSong: {type: String},
     userName: {type: String, required: true, unique: true},
-    email: {type: String, required: true, unique: true},
+    email: {type: String, unique: true},
     password: {type: String, required: true},
-    isAdmin: {type: Boolean, default: false, required: true},
+    isAdmin: {type: Boolean, default: false},
     contacts: [contactSchema],
 }, {
     timestamps: true,
