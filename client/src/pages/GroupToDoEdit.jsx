@@ -36,6 +36,13 @@ const PageWrapper = styled.form`
             outline: none;
             border: none;
         }
+
+        select {
+            padding: 5px;
+            width: 50%;
+            outline: none;
+            border: none;
+        }
     }
 `;
 
@@ -55,6 +62,7 @@ export default function GroupToDoEdit() {
 
     const [title, setTitle] = useState('');
     const [date, setDate] = useState('');
+    const [occur, setOccur] = useState('');
 
     const {id} = useParams();
     const dispatch = useDispatch();
@@ -64,7 +72,7 @@ export default function GroupToDoEdit() {
     const {loading, error, item} = itemDetails;
 
     const itemUpdate = useSelector(state => state.itemUpdate);
-    const {loading: loadingUpdate, error: errorUpdate, success} = itemUpdate;
+    const {success} = itemUpdate;
 
     useEffect(() => {
 
@@ -73,8 +81,14 @@ export default function GroupToDoEdit() {
             navigate('/grouptodo')
         }
 
-        dispatch(detailsItem(id));
-    }, [dispatch, id, success, navigate]);
+        if (!item) {
+            dispatch(detailsItem(id));
+        } else {
+            setTitle(item.title);
+            setOccur(item.itemOccur);
+        }
+        
+    }, [dispatch, id, success, navigate, item]);
 
     const autoFill = (e) => {
         e.preventDefault();
@@ -86,7 +100,7 @@ export default function GroupToDoEdit() {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        dispatch(updateItem({_id: item._id, title, date}));
+        dispatch(updateItem({_id: id, title, date, occur}));
     }
 
     return (
@@ -116,6 +130,15 @@ export default function GroupToDoEdit() {
                             value = {date}
                             onChange = {(e) => setDate(e.target.value)}
                         />
+                    </div>
+                    <div>
+                        <label htmlFor="occur">Occurrence: </label>
+                        <select id="occur" value = {occur} onChange = {(e) => setOccur(e.target.value)}>
+                            <option value="daily">Daily</option>
+                            <option value="alternate">Every Other</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
                     </div>
                     <Submit onClick = {autoFill}>Autofill Date</Submit>
                 </>

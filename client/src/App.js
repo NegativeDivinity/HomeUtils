@@ -132,7 +132,6 @@ function App() {
                 <Link to = '#'>Grocery Utils</Link>
                 <DropContent>
                   <li><Link to = '/grocery'>Grocery List</Link></li>
-                  <li><Link to = '#'>Groceries</Link></li>
                   <li><Link to = '/recipe'>Recipes</Link></li>
                 </DropContent>
               </Drop>

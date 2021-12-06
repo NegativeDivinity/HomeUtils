@@ -25,6 +25,7 @@ todoRouter.post('/', isAuth, expressAsyncHandler(async(req, res) => {
     const item = new Todo({
         title: 'Default',
         itemTime: `${time}`,
+        itemOccur: 'daily',
     });
     const createdItem = await item.save();
     res.send({message: 'Item Created', item: createdItem});
@@ -40,12 +41,12 @@ todoRouter.delete('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     }
 }));
 
-todoRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+todoRouter.put('/:id/edit', isAuth, expressAsyncHandler(async(req, res) => {
     const item = await Todo.findById(req.params.id);
-    let time = new Date().toLocaleString();
     if (item) {
-        item.title = item.title;
-        item.itemTime = time;
+        item.title = req.body.title || item.title;
+        item.itemTime = req.body.date || item.itemTime;
+        item.itemOccur = req.body.occur || item.itemOccur;
 
         const updatedItem = await item.save();
         res.send({message: 'Item Updated', item: updatedItem});
@@ -54,11 +55,12 @@ todoRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     }
 }));
 
-todoRouter.put('/:id/edit', isAuth, expressAsyncHandler(async(req, res) => {
+todoRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     const item = await Todo.findById(req.params.id);
+    let time = new Date().toLocaleString();
     if (item) {
-        item.title = req.body.title || item.title;
-        item.itemTime = req.body.date || item.itemTime;
+        item.title = item.title;
+        item.itemTime = time;
 
         const updatedItem = await item.save();
         res.send({message: 'Item Updated', item: updatedItem});

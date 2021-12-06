@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const todoSchema = new Schema({
     title: {type: String, required: true},
     itemTime: {type: String},
+    itemOccur: {type: String, required: true},
 },
 {
     timestamps: true,

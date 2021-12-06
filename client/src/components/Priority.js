@@ -32,7 +32,7 @@ export default function Priority(props) {
 
     const prevDay = getDay();
 
-    useEffect(() => {
+    const daily = () => {
         if (prevDay === currentDay) {
             setButton('green');
         } else if ((prevDay + 1) === currentDay) {
@@ -42,7 +42,59 @@ export default function Priority(props) {
         } else {
             setButton('red');
         }
-    }, [currentDay, prevDay]);
+    }
+
+    const alternate = () => {
+        if (prevDay === currentDay) {
+            setButton('green');
+        } else if ((prevDay + 2) === currentDay) {
+            setButton('yellow');
+        } else if ((prevDay + 3) === currentDay) {
+            setButton('orange');
+        } else {
+            setButton('red');
+        }
+    }
+
+    const weekly = () => {
+        if (prevDay === currentDay) {
+            setButton('green');
+        } else if ((prevDay + 6) === currentDay) {
+            setButton('yellow');
+        } else if ((prevDay + 8) === currentDay) {
+            setButton('orange');
+        } else {
+            setButton('red');
+        }
+    }
+
+    const monthly = () => {
+        if (prevDay === currentDay) {
+            setButton('green');
+        } else if ((prevDay + 30) === currentDay) {
+            setButton('yellow');
+        } else if ((prevDay + 34) === currentDay) {
+            setButton('orange');
+        } else {
+            setButton('red');
+        }
+    }
+
+    const itemOccur = () => {
+        if (item.itemOccur === 'daily') {
+            daily();
+        } else if (item.itemOccur === 'alternate') {
+            alternate();
+        } else if (item.itemOccur === 'weekly') {
+            weekly();
+        } else {
+            monthly();
+        }
+    }
+
+    useEffect(() => {
+        itemOccur();
+    }, [itemOccur]);
 
     return (
         <PageWrapper>

@@ -91,7 +91,7 @@ export const updateItem = (item) => async(dispatch, getState) => {
         const {data} = await axios.put(`/grouptodo/${item._id}/edit`, item, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
-        dispatch({type: TODO_UPDATE_SUCCESS, payload: data});
+        dispatch({type: TODO_UPDATE_SUCCESS, payload: data.item});
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message

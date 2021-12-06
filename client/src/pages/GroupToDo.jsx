@@ -70,13 +70,13 @@ export default function GroupToDo() {
     const {loading, error, items} = todoList;
 
     const itemAdd = useSelector(state => state.itemAdd);
-    const {loading: loadingItem, error: errorItem, success: successCreate, item: createdItem} = itemAdd;
+    const {success: successCreate, item: createdItem} = itemAdd;
 
     const itemDelete = useSelector(state => state.itemDelete);
-    const {loading: loadingDelete, error: errorDelete, success: successDelete} = itemDelete;
+    const {success: successDelete} = itemDelete;
 
     const itemTimeUpdate = useSelector(state => state.itemTimeUpdate);
-    const {loading: loadingTime, error: errorTime, success: successTime} = itemTimeUpdate;
+    const {success: successTime} = itemTimeUpdate;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
