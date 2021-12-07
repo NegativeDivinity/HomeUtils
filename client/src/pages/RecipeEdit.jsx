@@ -2,19 +2,18 @@ import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import { detailsGrocery, updateGrocery } from '../actions/groceryActions';
-import { detailsUser, updateUser } from '../actions/userActions';
+import { detailsRecipe, updateRecipe } from '../actions/recipeActions';
+import IngredientList from '../components/IngredientList';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { GROCERY_DETAILS_UPDATE_RESET } from '../constants/groceryConstants';
-import { USER_DETAILS_UPDATE_RESET } from '../constants/userConstants';
+import { RECIPE_DETAILS_RESET, RECIPE_DETAILS_UPDATE_RESET } from '../constants/recipeConstants';
 
 const PageWrapper = styled.div`
     margin-top: 2%;
     color: white;
 `;
 
-const GroceryEditForm = styled.form`
+const RecipeEditForm = styled.form`
     splay: flex;
     flex-direction: column;
     margin: 0 0 1% 30%;
@@ -63,51 +62,59 @@ export default function GroceryEdit() {
     const navigate = useNavigate();
     const {id} = useParams();
 
-    const groceryDetails = useSelector(state => state.groceryDetails);
-    const {loading: loadingDetail, error: errorDetail, grocery} = groceryDetails;
+    const recipeDetails = useSelector(state => state.recipeDetails);
+    const {loading: loadingDetail, error: errorDetail, recipe} = recipeDetails;
 
-    const groceryUpdate = useSelector(state => state.groceryUpdate);
-    const {success} = groceryUpdate;
+    const recipeUpdate = useSelector(state => state.recipeUpdate);
+    const {success} = recipeUpdate;
 
     const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [type, setType] = useState('');
 
     useEffect(() => {
 
         if (success) {
-            navigate('/grocery');
+            
+            navigate('/recipe');
         }
 
-        if (!grocery || (grocery._id !== id || success)) {
-            dispatch({type: GROCERY_DETAILS_UPDATE_RESET});
-            dispatch(detailsGrocery(id));
+        if (!recipe || (recipe._id !== id || success)) {
+            dispatch({type: RECIPE_DETAILS_UPDATE_RESET});
+            dispatch(detailsRecipe(id));
         } else {
-            setName(grocery.name);
-            setQuantity(grocery.quantity);
+            setName(recipe.name);
+            setType(recipe.type);
         }
 
-    }, [dispatch, grocery, id, navigate, success]);
+        
+
+    }, [dispatch, id, navigate, success, recipe]);
 
     const submitHandler = (e) => {
         e.preventDefault();
             
-        dispatch(updateGrocery({_id: 
-                grocery._id, 
-                name, 
-                quantity,
-            }));
+        dispatch(updateRecipe({
+            _id: id, 
+            name, 
+            type,
+        }));
+    }
+
+    const back = () => {
+        dispatch({type: RECIPE_DETAILS_RESET});
+        navigate('/recipe');
     }
 
     return (
        <PageWrapper>
-           <GroceryEditForm onSubmit = {submitHandler}>
+           <RecipeEditForm onSubmit = {submitHandler}>
                 {loadingDetail ? (
                         <LoadingBox />
                     ) : errorDetail ? (
                         <MessageBox variant = 'danger'>{errorDetail}</MessageBox>
                     ) :
                         <>
-                            <h1>{grocery.name}</h1>
+                            <h1>{recipe.name}</h1>
                             <div>
                                 <label htmlFor="name">Name: </label>
                                 <input 
@@ -118,18 +125,19 @@ export default function GroceryEdit() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="quantity">Quantity: </label>
+                                <label htmlFor="type">Type: </label>
                                 <input 
-                                    type="number" 
-                                    id = 'quantity' 
-                                    value = {quantity} 
-                                    onChange = {(e) => setQuantity(e.target.value)}
+                                    type="text" 
+                                    id = 'type' 
+                                    value = {type} 
+                                    onChange = {(e) => setType(e.target.value)}
                                 />
                             </div>
+                            <IngredientList recipe = {recipe}/>
                             <Submit type = 'submit'>Update</Submit>
                         </>
                 }
-            </GroceryEditForm>
+            </RecipeEditForm>
        </PageWrapper>
     )
 }

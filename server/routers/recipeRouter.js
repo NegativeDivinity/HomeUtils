@@ -29,6 +29,9 @@ recipeRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     if (recipe) {
         recipe.name = req.body.name || recipe.name;
         recipe.type = req.body.type || recipe.type;
+
+        const updatedRecipe = await recipe.save();
+        res.send({message: 'Recipe Updated', recipe: updatedRecipe});
     } else {
         res.status(404).send({message: 'No Recipe Found'});
     }

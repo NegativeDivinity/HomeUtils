@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
     RECIPE_LIST_REQUEST,
-    RECIPE_LIST_SUCCESS,
+    RECIPE_LIST_SUCCEED,
     RECIPE_LIST_FAIL,
     RECIPE_DETAILS_SUCCEED,
     RECIPE_DETAILS_FAIL,
@@ -32,7 +32,7 @@ export const listRecipe = () => async (dispatch) => {
 
     try {
         const {data} = await axios.get('/recipe');
-        dispatch({type: RECIPE_LIST_SUCCESS, payload: data});
+        dispatch({type: RECIPE_LIST_SUCCEED, payload: data});
     } catch (error) {
         const message = error.response && error.response.data.message
             ? error.response.data.message
@@ -148,7 +148,7 @@ export const deleteIngredient = (recipeId, ingredient) => async (dispatch, getSt
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.delete(`/recipe/${recipeId}/${ingredientId}`, {
+        const {data} = await axios.delete(`/recipe/${recipeId}/${ingredient._id}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: DELETE_INGREDIENT_SUCCESS});

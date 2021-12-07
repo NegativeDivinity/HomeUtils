@@ -80,11 +80,10 @@ export default function ContactEdit() {
     useEffect(() => {
 
         if (successUpdate) {
-            dispatch({type: CONTACT_UPDATE_RESET});
             navigate(`/contacts/${id}`)
         }
 
-        if (!contact) {
+        if (!contact || (contact._id !== cid || successUpdate)) {
             dispatch({type: CONTACT_UPDATE_RESET});
             dispatch(detailsContact(id, cid));
         } else {

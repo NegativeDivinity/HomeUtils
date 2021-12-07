@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
-const GroceryCard = styled.button`
+const RecipeCard = styled.button`
     display: flex;
     justify-content: space-between;
     width: 50%;
@@ -20,15 +20,15 @@ const GroceryCard = styled.button`
     }
 `;
 
-export default function GroceryCards(props) {
+export default function RecipeCards(props) {
 
-    const {grocery} = props;
+    const {recipe} = props;
     const navigate = useNavigate();
 
     return (
-       <GroceryCard onClick = {() => navigate(`/grocery/${grocery._id}`)}>
-           <p>{grocery.name}</p>
-           <p>{grocery.quantity}</p>
-       </GroceryCard>
+       <RecipeCard onClick = {() => navigate(`/recipe/${recipe._id}`)}>
+           <p>{recipe.name}</p>
+           <p>{recipe.type}</p>
+       </RecipeCard>
     )
 }

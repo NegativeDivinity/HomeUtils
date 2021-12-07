@@ -22,6 +22,7 @@ import UserEdit from './pages/UserEdit';
 import Grocery from './pages/Grocery';
 import GroceryEdit from './pages/GroceryEdit';
 import Recipe from './pages/Recipe';
+import RecipeEdit from './pages/RecipeEdit';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -244,6 +245,14 @@ function App() {
               element = {
                 <PrivateRoute>
                   <Recipe/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/recipe/:id' 
+              element = {
+                <PrivateRoute>
+                  <RecipeEdit/> 
                 </PrivateRoute>
               }
             />
