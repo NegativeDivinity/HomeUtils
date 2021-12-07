@@ -95,8 +95,7 @@ export default function ContactEdit() {
             setJob(contact.job);
             setCompany(contact.company);
         }
-
-        dispatch(detailsContact(id, cid));
+        
     }, [dispatch, id, cid, navigate, successUpdate, contact]);
 
     const submitHandler = (e) => {

@@ -2,6 +2,7 @@ import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { contactAddReducer, contactDeleteReducer, contactDetailsReducer, contactListReducer, contactUpdateReducer } from './reducers/contactReducer';
 import { groceryAddReducer, groceryDeleteReducer, groceryDetailsReducer, groceryListReducer, groceryUpdateReducer } from './reducers/groceryReducer';
+import { ingredientAddReducer, ingredientDeleteReducer, ingredientUpdateReducer, recipeAddReducer, recipeDeleteReducer, recipeDetailsReducer, recipeListReducer, recipeUpdateReducer } from './reducers/recipeReducers';
 import { itemAddReducer, itemDeleteReducer, itemDetailsReducer, itemTimeUpdateReducer, itemUpdateReducer, todoListReducer } from './reducers/todoReducers';
 import { userAddReducer, userDeleteReducer, userDetailsReducer, userListReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
 
@@ -36,7 +37,15 @@ const reducer = combineReducers({
     groceryAdd: groceryAddReducer,
     groceryUpdate: groceryUpdateReducer,
     groceryDelete: groceryDeleteReducer,
-
+    recipeList: recipeListReducer,
+    recipeDetails: recipeDetailsReducer,
+    recipeAdd: recipeAddReducer,
+    recipeUpdate: recipeUpdateReducer,
+    recipeDelete: recipeDeleteReducer,
+    ingredientAdd: ingredientAddReducer,
+    ingredientUpdate: ingredientUpdateReducer,
+    ingredientDelete: ingredientDeleteReducer,
+    
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

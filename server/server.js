@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import userRouter from './routers/userRouter.js';
 import groceryRouter from './routers/groceryRouter.js';
 import todoRouter from './routers/todoRouter.js';
+import recipeRouter from './routers/recipeRouter.js';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MONGO_URL, {
 app.use('/users', userRouter);
 app.use('/grocery', groceryRouter); 
 app.use('/grouptodo', todoRouter);
+app.use('/recipe', recipeRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
