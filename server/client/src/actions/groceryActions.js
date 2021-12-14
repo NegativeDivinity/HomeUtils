@@ -1,4 +1,4 @@
-import axios from 'axios';
+import {axiosInstance} from '../config.js';
 import {
     GROCERY_ADD_FAIL,
     GROCERY_ADD_REQUEST,
@@ -20,7 +20,7 @@ export const listGrocery = () => async (dispatch) => {
     dispatch({type: GROCERY_LIST_REQUEST});
 
     try {
-        const {data} = await axios.get('/grocery');
+        const {data} = await axiosInstance.get('/grocery');
         dispatch({type: GROCERY_LIST_SUCCEED, payload: data});
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -35,7 +35,7 @@ export const detailsGrocery = (groceryId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.get(`/grocery/${groceryId}`, {
+        const {data} = await axiosInstance.get(`/grocery/${groceryId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: GROCERY_DETAILS_SUCCEED, payload: data});
@@ -52,7 +52,7 @@ export const addGrocery = () => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.post('/grocery', {}, {
+        const {data} = await axiosInstance.post('/grocery', {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: GROCERY_ADD_SUCCEED, payload: data.grocery});
@@ -69,7 +69,7 @@ export const updateGrocery = (grocery) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.put(`/grocery/${grocery._id}`, grocery, {
+        const {data} = await axiosInstance.put(`/grocery/${grocery._id}`, grocery, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: GROCERY_DETAILS_UPDATE_SUCCEED, payload: data.grocery});
@@ -86,7 +86,7 @@ export const deleteGrocery = (groceryId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.delete(`/grocery/${groceryId}`, {
+        const {data} = await axiosInstance.delete(`/grocery/${groceryId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: GROCERY_DELETE_SUCCEED});

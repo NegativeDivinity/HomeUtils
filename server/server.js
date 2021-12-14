@@ -26,9 +26,11 @@ app.use('/grocery', groceryRouter);
 app.use('/grouptodo', todoRouter);
 app.use('/recipe', recipeRouter);
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
 
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
