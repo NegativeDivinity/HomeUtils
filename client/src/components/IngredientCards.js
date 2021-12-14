@@ -3,6 +3,9 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import {GrUpdate} from 'react-icons/gr';
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updateDirection, updateIngredient } from "../actions/recipeActions";
+import { useSelector } from "react-redux";
 
 const IngredientCard = styled.button`
     display: flex;
@@ -78,7 +81,7 @@ export default function IngredientCards(props) {
 
     const {ingredient} = props;
     const {recipeId} = props;
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setName(ingredient.name);
@@ -87,7 +90,12 @@ export default function IngredientCards(props) {
     }, [ingredient])
 
     const updateHandler = (ingredient) => {
-
+        dispatch(updateIngredient(recipeId, {
+            _id: ingredient._id,
+            name,
+            quantity,
+            metric,
+        }))
     }
 
     return (

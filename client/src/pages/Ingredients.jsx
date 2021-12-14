@@ -9,7 +9,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { useNavigate, useParams } from 'react-router';
 import { addIngredient, deleteIngredient, detailsRecipe } from '../actions/recipeActions';
-import { ADD_INGREDIENT_RESET, DELETE_INGREDIENT_RESET } from '../constants/recipeConstants';
+import { ADD_INGREDIENT_RESET, DELETE_INGREDIENT_RESET, INGREDIENT_UPDATE_RESET } from '../constants/recipeConstants';
 import IngredientCards from '../components/IngredientCards';
 
 const PageWrapper = styled.div`
@@ -74,6 +74,9 @@ export default function Ingredients() {
     const ingredientDelete = useSelector(state => state.ingredientDelete);
     const {success: successDelete} = ingredientDelete;
 
+    const ingredientUpdate = useSelector(state => state.ingredientUpdate);
+    const {success: successUpdate} = ingredientUpdate;
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -88,8 +91,13 @@ export default function Ingredients() {
             dispatch(detailsRecipe(id));
         }
 
+        if (successUpdate) {
+            dispatch({type: INGREDIENT_UPDATE_RESET});
+            dispatch(detailsRecipe(id));
+        }
+
         dispatch(detailsRecipe(id));
-    }, [dispatch, navigate, id, successAdd, successDelete]);
+    }, [dispatch, navigate, id, successAdd, successDelete, successUpdate]);
 
     const addHandler = () => {
         dispatch(addIngredient(id));
@@ -98,19 +106,6 @@ export default function Ingredients() {
     const deleteHandler = (ingredient) => {
         dispatch(deleteIngredient(id, ingredient._id));
         console.log(id, ingredient._id);
-    }
-
-    const checker = () => {
-        for (var i = 0; i < recipe.ingredients.length; i++) {
-            if (recipe.ingredients[i].name === 'Default name') {
-                var x = true;
-                break;
-            } else {
-                var x = false;
-            }
-        }
-
-        return x;
     }
 
     return (

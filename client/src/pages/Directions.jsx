@@ -99,7 +99,7 @@ export default function Directions() {
 
         dispatch(detailsRecipe(id));
 
-    }, [dispatch, navigate, id, successAdd, successDelete]);
+    }, [dispatch, navigate, id, successAdd, successDelete, successUpdate]);
 
     const addHandler = () => {
         dispatch(addDirection(id));
