@@ -21,10 +21,10 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true
 });
 
-app.use('/users', userRouter);
-app.use('/grocery', groceryRouter); 
-app.use('/grouptodo', todoRouter);
-app.use('/recipe', recipeRouter);
+app.use('/api/users', userRouter);
+app.use('/api/grocery', groceryRouter); 
+app.use('/api/grouptodo', todoRouter);
+app.use('/api/recipe', recipeRouter);
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
