@@ -96,19 +96,6 @@ export default function Recipe() {
         dispatch(deleteRecipe(recipe._id));
     }
 
-    const checker = () => {
-        for (var i = 0; i < recipes.length; i++) {
-            if (recipes[i].name === 'Default name') {
-                var x = true;
-                break;
-            } else {
-                var x = false;
-            }
-        }
-
-        return x;
-    }
-
     return (
        <PageWrapper>
            <h1>Recipes</h1>
@@ -119,14 +106,6 @@ export default function Recipe() {
                 :
                 (
                 <>
-                    {checker() === true && <h3>Unfinished:</h3>}
-                    {recipes.filter(recipe => recipe.name === 'Default name').map(recipe => (
-                        <RecipeRow>
-                            <RecipeCards key = {recipe._id} recipe = {recipe} />
-                            <Delete onClick = {() => deleteHandler(recipe)}><FaTrash fontSize = '30px' /></Delete>
-                        </RecipeRow>
-                    ))}
-                    <h3>Completed Recipes:</h3>
                     {recipes.filter(recipe => recipe.name !== 'Default name').sort((a, b) => a.name.localeCompare(b.name)).map(recipe => (
                         <RecipeRow>
                             <RecipeCards key = {recipe._id} recipe = {recipe} />

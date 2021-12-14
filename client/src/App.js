@@ -23,6 +23,8 @@ import Grocery from './pages/Grocery';
 import GroceryEdit from './pages/GroceryEdit';
 import Recipe from './pages/Recipe';
 import RecipeEdit from './pages/RecipeEdit';
+import Ingredients from './pages/Ingredients';
+import Directions from './pages/Directions';
 
 const PageWrapper = styled.div`
 display: flex;
@@ -253,6 +255,22 @@ function App() {
               element = {
                 <PrivateRoute>
                   <RecipeEdit/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/ingredients/:id' 
+              element = {
+                <PrivateRoute>
+                  <Ingredients/> 
+                </PrivateRoute>
+              }
+            />
+            <Route 
+              exact path = '/directions/:id' 
+              element = {
+                <PrivateRoute>
+                  <Directions/> 
                 </PrivateRoute>
               }
             />

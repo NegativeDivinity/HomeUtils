@@ -47,7 +47,7 @@ recipeRouter.delete('/:id', isAuth, expressAsyncHandler(async(req, res) => {
     }
 }));
 
-recipeRouter.post('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+recipeRouter.post('/:id/ingredient', isAuth, expressAsyncHandler(async(req, res) => {
     const recipe = await Recipe.findById(req.params.id);
     if (recipe) {
         const ingredient = {
@@ -55,7 +55,7 @@ recipeRouter.post('/:id', isAuth, expressAsyncHandler(async(req, res) => {
             quantity: 1,
             metric: 'cup',
         }
-        recipe.ingredients.pust(ingredient);
+        recipe.ingredients.push(ingredient);
         const updatedRecipe = await recipe.save();
         res.send({message: 'Ingredient Added', recipe: updatedRecipe});
     } else {
@@ -79,7 +79,7 @@ recipeRouter.put('/:id/:iid', isAuth, expressAsyncHandler(async(req, res) => {
     }
 }));
 
-recipeRouter.delete('/:id/:iid', isAuth, expressAsyncHandler(async(req, res) => {
+recipeRouter.delete('/:id/:iid/ingredient', isAuth, expressAsyncHandler(async(req, res) => {
     const recipe = await Recipe.findById(req.params.id);
     const ingredient = recipe.ingredients.id(req.params.iid);
 
@@ -92,5 +92,45 @@ recipeRouter.delete('/:id/:iid', isAuth, expressAsyncHandler(async(req, res) => 
     }
 }));
 
+recipeRouter.post('/:id/direction', isAuth, expressAsyncHandler(async(req, res) => {
+    const recipe = await Recipe.findById(req.params.id);
+    if (recipe) {
+        const direction = {
+            task: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+        }
+        recipe.directions.push(direction);
+        const updatedRecipe = await recipe.save();
+        res.send({message: 'Ingredient Added', recipe: updatedRecipe});
+    } else {
+        res.status(404).send({message: 'No Recipe Found'});
+    }
+}));
+
+recipeRouter.put('/:id/:did/direction', isAuth, expressAsyncHandler(async(req, res) => {
+    const recipe = await Recipe.findById(req.params.id);
+    const direction = recipe.directions.id(req.params.did);
+
+    if (recipe) {
+        direction.task = req.body.task || direction.task;
+
+        const updatedRecipe = await recipe.save();
+        res.send({message: 'Direction Updated', recipe: updatedRecipe});
+    } else {
+        res.status(404).send({message: 'No Recipe Found'});
+    }
+}));
+
+recipeRouter.delete('/:id/:did/direction', isAuth, expressAsyncHandler(async(req, res) => {
+    const recipe = await Recipe.findById(req.params.id);
+    const direction = recipe.directions.id(req.params.did);
+
+    if (recipe) {
+        recipe.directions.remove(direction);
+        const updatedRecipe = await recipe.save();
+        res.send({message: 'Direction Deleted', recipe: updatedRecipe});
+    } else {
+        res.status(404).send({message: 'No Recipe Found'});
+    }
+}));
 
 export default recipeRouter;

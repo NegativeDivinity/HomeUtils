@@ -4,20 +4,23 @@ import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import { detailsRecipe, updateRecipe } from '../actions/recipeActions';
 import IngredientList from '../components/IngredientList';
+import DirectionList from '../components/DirectionList';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { RECIPE_DETAILS_RESET, RECIPE_DETAILS_UPDATE_RESET } from '../constants/recipeConstants';
+import { RECIPE_DETAILS_UPDATE_RESET } from '../constants/recipeConstants';
 
 const PageWrapper = styled.div`
     margin-top: 2%;
     color: white;
+    display: flex;
 `;
 
 const RecipeEditForm = styled.form`
-    splay: flex;
+    display: flex;
     flex-direction: column;
-    margin: 0 0 1% 30%;
-    width: 40%;
+    margin: 0 0 1% 5%;
+    width: 25%;
+    height: 20%;
     border: solid black 3px;
     padding: 10px;
     border-radius: 10px;
@@ -41,6 +44,22 @@ const RecipeEditForm = styled.form`
             outline: none;
             border: none;
         }
+    }
+`;
+
+const InfoForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 1% 5%;
+    width: 25%;
+    border: solid black 3px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(73, 73, 77);
+    height: fit-content;
+
+    h1 {
+        text-align: center;
     }
 `;
 
@@ -74,7 +93,6 @@ export default function GroceryEdit() {
     useEffect(() => {
 
         if (success) {
-            
             navigate('/recipe');
         }
 
@@ -85,8 +103,6 @@ export default function GroceryEdit() {
             setName(recipe.name);
             setType(recipe.type);
         }
-
-        
 
     }, [dispatch, id, navigate, success, recipe]);
 
@@ -100,20 +116,17 @@ export default function GroceryEdit() {
         }));
     }
 
-    const back = () => {
-        dispatch({type: RECIPE_DETAILS_RESET});
-        navigate('/recipe');
-    }
+    
 
     return (
        <PageWrapper>
-           <RecipeEditForm onSubmit = {submitHandler}>
-                {loadingDetail ? (
-                        <LoadingBox />
-                    ) : errorDetail ? (
-                        <MessageBox variant = 'danger'>{errorDetail}</MessageBox>
-                    ) :
-                        <>
+           {loadingDetail ? (
+                    <LoadingBox />
+                ) : errorDetail ? (
+                    <MessageBox variant = 'danger'>{errorDetail}</MessageBox>
+                ) : (
+                    <>
+                        <RecipeEditForm onSubmit = {submitHandler}>
                             <h1>{recipe.name}</h1>
                             <div>
                                 <label htmlFor="name">Name: </label>
@@ -133,11 +146,21 @@ export default function GroceryEdit() {
                                     onChange = {(e) => setType(e.target.value)}
                                 />
                             </div>
-                            <IngredientList recipe = {recipe}/>
                             <Submit type = 'submit'>Update</Submit>
-                        </>
-                }
-            </RecipeEditForm>
+                        </RecipeEditForm>
+                        <InfoForm>
+                            <h1>Ingredients</h1>
+                            <IngredientList ingredients = {recipe.ingredients}/>
+                            <Submit onClick = {() => navigate(`/ingredients/${recipe._id}`)}>Edit</Submit>
+                        </InfoForm>
+                        <InfoForm>
+                            <h1>Directions</h1>
+                            <DirectionList directions = {recipe.directions}/>
+                            <Submit onClick = {() => navigate(`/directions/${recipe._id}`)}>Edit</Submit>
+                        </InfoForm>
+                    </>
+                )
+            }
        </PageWrapper>
     )
 }

@@ -2,7 +2,7 @@ import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { contactAddReducer, contactDeleteReducer, contactDetailsReducer, contactListReducer, contactUpdateReducer } from './reducers/contactReducer';
 import { groceryAddReducer, groceryDeleteReducer, groceryDetailsReducer, groceryListReducer, groceryUpdateReducer } from './reducers/groceryReducer';
-import { ingredientAddReducer, ingredientDeleteReducer, ingredientUpdateReducer, recipeAddReducer, recipeDeleteReducer, recipeDetailsReducer, recipeListReducer, recipeUpdateReducer } from './reducers/recipeReducers';
+import { directionAddReducer, directionDeleteReducer, directionUpdateReducer, ingredientAddReducer, ingredientDeleteReducer, ingredientUpdateReducer, recipeAddReducer, recipeDeleteReducer, recipeDetailsReducer, recipeListReducer, recipeUpdateReducer } from './reducers/recipeReducers';
 import { itemAddReducer, itemDeleteReducer, itemDetailsReducer, itemTimeUpdateReducer, itemUpdateReducer, todoListReducer } from './reducers/todoReducers';
 import { userAddReducer, userDeleteReducer, userDetailsReducer, userListReducer, userSigninReducer, userUpdateReducer } from './reducers/userReducers';
 
@@ -45,6 +45,9 @@ const reducer = combineReducers({
     ingredientAdd: ingredientAddReducer,
     ingredientUpdate: ingredientUpdateReducer,
     ingredientDelete: ingredientDeleteReducer,
+    directionAdd: directionAddReducer,
+    directionUpdate: directionUpdateReducer,
+    directionDelete: directionDeleteReducer,
     
 });
 

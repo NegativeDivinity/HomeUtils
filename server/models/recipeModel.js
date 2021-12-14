@@ -11,10 +11,18 @@ const ingredientSchema = new Schema({
     timestamps: true,
 });
 
+const directionSchema = new Schema({
+    task: {type: String, required: true},
+},
+{
+    timestamps: true,
+});
+
 const recipeSchema = new Schema({
     name: {type: String, required: true},
     type: {type: String, required: true},
     ingredients: [ingredientSchema],
+    directions: [directionSchema],
 },
 {
     timestamps: true,
