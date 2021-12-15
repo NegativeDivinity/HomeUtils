@@ -1,4 +1,4 @@
-import {axiosInstance} from '../config.js';
+import axios from 'axios';
 import {
     RECIPE_LIST_REQUEST,
     RECIPE_LIST_SUCCEED,
@@ -40,7 +40,7 @@ export const listRecipe = () => async (dispatch) => {
     dispatch({type: RECIPE_LIST_REQUEST});
 
     try {
-        const {data} = await axiosInstance.get('/recipe');
+        const {data} = await axios.get('/recipe');
         dispatch({type: RECIPE_LIST_SUCCEED, payload: data});
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -55,7 +55,7 @@ export const detailsRecipe = (recipeId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.get(`/recipe/${recipeId}`, {
+        const {data} = await axios.get(`/recipe/${recipeId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: RECIPE_DETAILS_SUCCEED, payload: data});
@@ -72,7 +72,7 @@ export const addRecipe = () => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.post('/recipe', {}, {
+        const {data} = await axios.post('/recipe', {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: RECIPE_ADD_SUCCEED, payload: data.recipe});
@@ -89,7 +89,7 @@ export const updateRecipe = (recipe) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.put(`/recipe/${recipe._id}`, recipe, {
+        const {data} = await axios.put(`/recipe/${recipe._id}`, recipe, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: RECIPE_DETAILS_UPDATE_SUCCEED, payload: data.recipe});
@@ -106,7 +106,7 @@ export const deleteRecipe = (recipeId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.delete(`/recipe/${recipeId}`, {
+        const {data} = await axios.delete(`/recipe/${recipeId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: RECIPE_DELETE_SUCCEED});
@@ -123,7 +123,7 @@ export const addIngredient = (recipeId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.post(`/recipe/${recipeId}/ingredient`, {}, {
+        const {data} = await axios.post(`/recipe/${recipeId}/ingredient`, {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: ADD_INGREDIENT_SUCCESS, payload: data.ingredient});
@@ -140,7 +140,7 @@ export const updateIngredient = (recipeId, ingredient) => async (dispatch, getSt
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.put(`/recipe/${recipeId}/${ingredient._id}`, ingredient, {
+        const {data} = await axios.put(`/recipe/${recipeId}/${ingredient._id}`, ingredient, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: INGREDIENT_UPDATE_SUCCESS, payload: data.ingredient});
@@ -157,7 +157,7 @@ export const deleteIngredient = (recipeId, ingredientId) => async (dispatch, get
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.delete(`/recipe/${recipeId}/${ingredientId}/ingredient`, {
+        const {data} = await axios.delete(`/recipe/${recipeId}/${ingredientId}/ingredient`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: DELETE_INGREDIENT_SUCCESS});
@@ -174,7 +174,7 @@ export const addDirection = (recipeId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.post(`/recipe/${recipeId}/direction`, {}, {
+        const {data} = await axios.post(`/recipe/${recipeId}/direction`, {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: ADD_DIRECTION_SUCCESS, payload: data.direction});
@@ -191,7 +191,7 @@ export const updateDirection = (recipeId, direction) => async (dispatch, getStat
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.put(`/recipe/${recipeId}/${direction._id}/direction`, direction, {
+        const {data} = await axios.put(`/recipe/${recipeId}/${direction._id}/direction`, direction, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: DIRECTION_UPDATE_SUCCESS, payload: data.direction});
@@ -208,7 +208,7 @@ export const deleteDirection = (recipeId, directionId) => async (dispatch, getSt
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.delete(`/recipe/${recipeId}/${directionId}/direction`, {
+        const {data} = await axios.delete(`/recipe/${recipeId}/${directionId}/direction`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: DELETE_DIRECTION_SUCCESS});

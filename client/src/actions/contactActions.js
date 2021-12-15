@@ -1,4 +1,4 @@
-import {axiosInstance} from "../config.js";
+import axios from "axios";
 import { ADD_CONTACT_FAIL, ADD_CONTACT_REQUEST, ADD_CONTACT_SUCCESS, CONTACT_DETAILS_FAIL, CONTACT_DETAILS_REQUEST, CONTACT_DETAILS_SUCCESS, CONTACT_LIST_FAIL, CONTACT_LIST_REQUEST, CONTACT_LIST_SUCCESS, CONTACT_UPDATE_FAIL, CONTACT_UPDATE_REQUEST, CONTACT_UPDATE_SUCCESS, DELETE_CONTACT_FAIL, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS } from "../constants/contactConstants";
 
 export const listContact = () => async(dispatch, getState) => {
@@ -6,7 +6,7 @@ export const listContact = () => async(dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.get('/contact', {
+        const {data} = await axios.get('/contact', {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: CONTACT_LIST_SUCCESS, payload: data});
@@ -22,7 +22,7 @@ export const detailsContact = (userId, contactId) => async(dispatch) => {
     dispatch({type: CONTACT_DETAILS_REQUEST, payload: {userId, contactId}});
 
     try {
-        const {data} = await axiosInstance.get(`/users/${userId}/contact/${contactId}`);
+        const {data} = await axios.get(`/users/${userId}/contact/${contactId}`);
         dispatch({type: CONTACT_DETAILS_SUCCESS, payload: data});
     } catch (error) {
         const message = error.response && error.response.data.message
@@ -37,7 +37,7 @@ export const updateContact = (userId, contact) => async(dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
     
     try {
-        const {data} = await axiosInstance.put(`/users/${userId}/${contact._id}`, contact, {
+        const {data} = await axios.put(`/users/${userId}/${contact._id}`, contact, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
 
@@ -53,7 +53,7 @@ export const addContact = (userId) => async(dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.post(`/users/${userId}/contacts`, {}, {
+        const {data} = await axios.post(`/users/${userId}/contacts`, {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: ADD_CONTACT_SUCCESS, payload: data.contact});
@@ -70,7 +70,7 @@ export const editContact = (userId, contact) => async(dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.post(`/users/${userId}/contact`, contact, {
+        const {data} = await axios.post(`/users/${userId}/contact`, contact, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: ADD_CONTACT_SUCCESS, payload: data.contact});
@@ -87,7 +87,7 @@ export const deleteContact = (userId, contactId) => async(dispatch, getState) =>
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.delete(`/users/${userId}/contact/${contactId}`, {
+        const {data} = await axios.delete(`/users/${userId}/contact/${contactId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: DELETE_CONTACT_SUCCESS});
