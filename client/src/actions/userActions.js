@@ -25,7 +25,7 @@ export const signin = (userName, password) => async(dispatch) => {
     dispatch({type: USER_SIGNIN_REQUEST, payload: {userName, password}});
 
     try {
-        const {data} = await axiosInstance.post('/users/signin', {userName, password});
+        const {data} = await axios.post('/users/signin', {userName, password});
         dispatch({type: USER_SIGNIN_SUCCESS, payload: data});
         localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (error) {
@@ -44,7 +44,7 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.get(`/users/${userId}`, {
+        const {data} = await axios.get(`/users/${userId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
 
@@ -62,7 +62,7 @@ export const listUser = () => async(dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.get('/users', {
+        const {data} = await axios.get('/users', {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: USER_LIST_SUCCEED, payload: data});
@@ -79,7 +79,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.put('/users/profile', user, {
+        const {data} = await axios.put('/users/profile', user, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         
@@ -99,7 +99,7 @@ export const addUser = () => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.post('/users', {}, {
+        const {data} = await axios.post('/users', {}, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: USER_ADD_SUCCEED, payload: data.user});
@@ -116,7 +116,7 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axiosInstance.delete(`/users/${userId}`, {
+        const {data} = await axios.delete(`/users/${userId}`, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         dispatch({type: USER_DELETE_SUCCEED});
