@@ -11,6 +11,7 @@ import recipeRouter from './routers/recipeRouter.js';
 dotenv.config();
 
 const port = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
 const app = express();
 app.use(express.json());
