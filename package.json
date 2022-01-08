@@ -30,7 +30,6 @@
     "heroku": "^7.59.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
-    "nodemon": "^2.0.15",
-    "react-beautiful-dnd": "^13.1.0"
+    "nodemon": "^2.0.15"
   }
 }

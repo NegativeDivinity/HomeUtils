@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 
 // router imports
 import userRouter from './routers/userRouter.js';
@@ -11,6 +12,7 @@ import recipeRouter from './routers/recipeRouter.js';
 dotenv.config();
 
 const port = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
 const app = express();
 app.use(express.json());
@@ -21,10 +23,10 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true
 });
 
-app.use('/api/users', userRouter);
-app.use('/api/grocery', groceryRouter); 
-app.use('/api/grouptodo', todoRouter);
-app.use('/api/recipe', recipeRouter);
+app.use('/users', userRouter);
+app.use('/grocery', groceryRouter); 
+app.use('/grouptodo', todoRouter);
+app.use('/recipe', recipeRouter);
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
