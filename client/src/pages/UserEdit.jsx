@@ -13,7 +13,7 @@ const PageWrapper = styled.div`
 `;
 
 const UserEditForm = styled.form`
-    splay: flex;
+    display: flex;
     flex-direction: column;
     margin: 0 0 1% 30%;
     width: 40%;
@@ -81,7 +81,7 @@ export default function UserEdit() {
             navigate('/users');
         }
 
-        if (!user) {
+        if (!user || (user._id !== id || success)) {
             dispatch(detailsUser(id));
         } else {
             setFirstName(user.firstName);
@@ -98,8 +98,8 @@ export default function UserEdit() {
         if (password !== confirmPassword) {
             alert('Passwords do not match!')
         } else {
-            dispatch(updateUser({userId: 
-                user._id, 
+            dispatch(updateUser({_id: 
+                id, 
                 firstName, 
                 lastName, 
                 userName, 

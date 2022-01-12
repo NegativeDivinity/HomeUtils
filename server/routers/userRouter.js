@@ -49,7 +49,7 @@ userRouter.get('/', isAuth, expressAsyncHandler(async(req, res) => {
 userRouter.post('/', isAuth, expressAsyncHandler(async(req, res) => {
     const user = new User({
         firstName: 'default',
-        userName: 'bitch',
+        userName: 'default',
         password: 'password',
     });
     const newUser = await user.save();
@@ -75,8 +75,8 @@ userRouter.get('/:id', expressAsyncHandler(async(req, res) => {
     }
 }));
 
-userRouter.put('/profile', isAuth, expressAsyncHandler(async(req, res) => {
-    const user = await User.findById(req.user._id);
+userRouter.put('/:id', isAuth, expressAsyncHandler(async(req, res) => {
+    const user = await User.findById(req.params.id);
     if (user) {
         user.firstName = req.body.firstName || user.firstName;
         user.lastName = req.body.lastName || user.lastName;
