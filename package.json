@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.2.0",
     "heroku": "^7.59.2",
+    "heroku-cli": "^7.0.9",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
     "nodemon": "^2.0.15"
