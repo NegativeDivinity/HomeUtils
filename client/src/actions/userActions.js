@@ -79,7 +79,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     const {userSignin: {userInfo}} = getState();
 
     try {
-        const {data} = await axios.put('/users/profile', user, {
+        const {data} = await axios.put(`/users/${user._id}`, user, {
             headers: {Authorization: `Bearer ${userInfo.token}`}
         });
         
