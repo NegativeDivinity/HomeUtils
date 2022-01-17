@@ -7,6 +7,7 @@ export default function Dashboard() {
     const Wrapper = styled.div`
         text-align: center;
         color: white;
+        margin-top: 10%;
     `;
 
     const userSignin = useSelector(state => state.userSignin);

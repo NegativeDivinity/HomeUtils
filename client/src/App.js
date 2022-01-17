@@ -25,84 +25,144 @@ import Recipe from './pages/Recipe';
 import RecipeEdit from './pages/RecipeEdit';
 import Ingredients from './pages/Ingredients';
 import Directions from './pages/Directions';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
 
 const PageWrapper = styled.div`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Header = styled.header`
-background-color: rgb(64, 62, 64);
-display: flex;
-justify-content: space-between;
-padding: 20px 0 20px 0;
-margin: 0;
-align-items: center;
-height: 5vh;
+  background-color: rgb(64, 62, 64);
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  padding: 20px 0 20px 0;
+  margin: 0;
+  align-items: center;
+  height: 5vh;
+  width: 100%;
 
-div {
-  width: 50%;
-  margin-left: 5%;
-}
+  div {
+    width: 50%;
+    margin-left: 5%;
+  }
 `;
 
 const Main = styled.main`
-background-color: rgb(87, 91, 99);
+  background-color: rgb(87, 91, 99);
 `;
 
 const NavLinks = styled.div`
-display: flex;
+  display: flex;
+
+  @media (max-width: 885px) {
+    display: none;
+  }
 `;
 
 const Logo = styled(Link)`
-font-size: 30px;
-text-decoration: none;
-cursor: poiter;
-color: white;
+  font-size: 30px;
+  text-decoration: none;
+  cursor: poiter;
+  color: white;
 `;
 
 const DropContent = styled.ul`
-position: absolute;
-min-width: 8rem;
-padding: .5rem;
-z-index: 1;
-margin: 0;
-margin-top: .3rem;
-border-radius: 0.5rem;
-background-color: black;
-list-style: none;
-visibility: hidden;
-transition: 0.2s .2s;
+  position: absolute;
+  min-width: 8rem;
+  padding: .5rem;
+  z-index: 1;
+  margin: 0;
+  margin-top: .3rem;
+  border-radius: 0.5rem;
+  background-color: black;
+  list-style: none;
+  visibility: hidden;
+  transition: 0.2s .2s;
 
-li a {
-  font-size: 15px;
-  text-decoration: none;
+  li a {
+    font-size: 15px;
+    text-decoration: none;
 
-  &:hover {
-    opacity: .65;
+    &:hover {
+      opacity: .65;
+    }
   }
-}
 `;
 
 const Drop = styled.div`
-position: relative;
-margin-left: 0;
-a {
-  font-size: 20px;
+  position: relative;
+  margin-left: 0;
+  a {
+    font-size: 20px;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+  &:hover ${DropContent} {
+    visibility: visible;
+    transition: 0s;
+  }
+`;
+
+const Mobile = styled.div`
+  display: flex;
+  justify-content: right;
   align-items: center;
-  text-decoration: none;
   color: white;
-}
-&:hover ${DropContent} {
-  visibility: visible;
-  transition: 0s;
-}
+  font-size: 35px;
+  padding: 5px 30px 0 0;
+`;
+
+const Aside = styled.aside`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 15vh;
+  background-color: rgb(64, 62, 64);
+  padding-top: 10px;
+
+  .heading {
+    font-size: 25px;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+  }
+`;
+
+const MobileDropContent = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 5px;
+  display: none;
+
+  li {
+    background-color: rgb(87, 91, 99);
+    padding: 5px;
+    width: 50%;
+    margin: 0 0 1% 25%;
+  }
+`;
+
+const MobileDrop = styled.div`
+  margin: 10px;
+
+  &:hover ${MobileDropContent} {
+    display: block;
+  }
 `;
 
 function App() {
 
   const userSignin = useSelector(state => state.userSignin);
   const {userInfo} = userSignin;
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   const signoutHandler = (e) => {
@@ -111,6 +171,18 @@ function App() {
     dispatch(signout());
   }
 
+  const toggle = () => {
+    if (setOpen() == true) {
+      setOpen(false)
+    }
+
+    if (setOpen() == false) {
+      setOpen(true)
+    }
+  }
+
+  window.addEventListener('click', toggle\);
+
   return (
     <Router>
       <Routes>
@@ -118,39 +190,75 @@ function App() {
       </Routes>
       <PageWrapper>
         {userInfo && (
-          <Header>
-            <div>
-              <Logo to = '/dashboard'>HomeOps</Logo>
-            </div>
-            <NavLinks>
-              <Drop>
-                <Link to = '#'>Home Utils</Link>
-                <DropContent>
-                  <li><Link to = '/userbio'>User Bios</Link></li>
-                  <li><Link to = '/grouptodo'>To-Do-List</Link></li>
-                  <li><Link to = '#'>Calendar</Link></li>
-                  <li><Link to = '#'>Calculator</Link></li>
-                </DropContent>
-              </Drop>
-              <Drop>
-                <Link to = '#'>Grocery Utils</Link>
-                <DropContent>
-                  <li><Link to = '/grocery'>Grocery List</Link></li>
-                  <li><Link to = '/recipe'>Recipes</Link></li>
-                </DropContent>
-              </Drop>
-              <Drop>
-                <Link to = '#'>{userInfo.firstName}</Link>
-                <DropContent>
-                  <li><Link to = '/profile'>Profile</Link></li>
-                  <li><Link to = '#'>To-Do-List</Link></li>
-                  <li><Link to = {`/contacts/${userInfo._id}`}>Contact List</Link></li>
-                  {userInfo.isAdmin && <li><Link to = '/users'>Users</Link></li>}
-                  <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
-                </DropContent>
-              </Drop>
-            </NavLinks>
-          </Header>
+          <>
+            <Header>
+              <div>
+                <Logo to = '/dashboard'>HomeOps</Logo>
+              </div>
+              <NavLinks>
+                <Drop>
+                  <Link to = '#'>Home Utils</Link>
+                  <DropContent>
+                    <li><Link to = '/userbio'>User Bios</Link></li>
+                    <li><Link to = '/grouptodo'>To-Do-List</Link></li>
+                    <li><Link to = '#'>Calendar</Link></li>
+                    <li><Link to = '#'>Calculator</Link></li>
+                  </DropContent>
+                </Drop>
+                <Drop>
+                  <Link to = '#'>Grocery Utils</Link>
+                  <DropContent>
+                    <li><Link to = '/grocery'>Grocery List</Link></li>
+                    <li><Link to = '/recipe'>Recipes</Link></li>
+                  </DropContent>
+                </Drop>
+                <Drop>
+                  <Link to = '#'>{userInfo.firstName}</Link>
+                  <DropContent>
+                    <li><Link to = '/profile'>Profile</Link></li>
+                    <li><Link to = '#'>To-Do-List</Link></li>
+                    <li><Link to = {`/contacts/${userInfo._id}`}>Contact List</Link></li>
+                    {userInfo.isAdmin && <li><Link to = '/users'>Users</Link></li>}
+                    <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
+                  </DropContent>
+                </Drop>
+              </NavLinks>
+              <Mobile>
+                <GiHamburgerMenu  onClick = {toggle}/>
+              </Mobile>
+            </Header>
+            {open && (
+              <Aside>
+                <MobileDrop>
+                  <Link to = '#' className='heading'>Home Utils</Link>
+                  <MobileDropContent>
+                    <li><Link to = '/userbio'>User Bios</Link></li>
+                    <li><Link to = '/grouptodo'>To-Do-List</Link></li>
+                    <li><Link to = '#'>Calendar</Link></li>
+                    <li><Link to = '#'>Calculator</Link></li>
+                  </MobileDropContent>
+                </MobileDrop>
+                <MobileDrop>
+                  <Link to = '#' className='heading'>Grocery Utils</Link>
+                  <MobileDropContent>
+                    <li><Link to = '/grocery'>Grocery List</Link></li>
+                    <li><Link to = '/recipe'>Recipes</Link></li>
+                  </MobileDropContent>
+                </MobileDrop>
+                <MobileDrop>
+                  <Link to = '#' className='heading'>{userInfo.firstName}</Link>
+                  <MobileDropContent>
+                    <li><Link to = '/profile'>Profile</Link></li>
+                    <li><Link to = '#'>To-Do-List</Link></li>
+                    <li><Link to = {`/contacts/${userInfo._id}`}>Contact List</Link></li>
+                    {userInfo.isAdmin && <li><Link to = '/users'>Users</Link></li>}
+                    <li><Link to = '#signout' onClick = {signoutHandler}>Sign Out</Link></li>
+                  </MobileDropContent>
+                </MobileDrop>              
+              </Aside>
+            )}
+            
+          </>
         )}
         <Main>
           <Routes>
